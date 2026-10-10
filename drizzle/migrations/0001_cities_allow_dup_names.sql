@@ -1,0 +1,1 @@
+ALTER TABLE public.cities DROP CONSTRAINT IF EXISTS cities_name_key;
