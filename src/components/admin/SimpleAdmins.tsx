@@ -28,7 +28,7 @@ export function CategoriesAdmin() {
     refresh();
   };
   const move = async (i: number, dir: -1 | 1) => {
-    const a = data![i], b = data![i + dir];
+    const a = data![i]!, b = data![i + dir];
     if (!b) return;
     await Promise.all([
       supabase.from("categories").update({ sort_order: b.sort_order }).eq("id", a.id),

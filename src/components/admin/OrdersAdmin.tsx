@@ -33,7 +33,7 @@ export function OrdersAdmin() {
 
   const exportCsv = () => {
     const rows = [["رقم", "الاسم", "الهاتف", "المدينة", "الدفع", "المصرف", "الحالة", "المجموع", "التاريخ"]];
-    list.forEach((o) => rows.push([String(o.order_number), o.customer_name, o.phone, o.city, PAYMENT_LABELS[o.payment_method], o.bank ?? "", STATUS_LABELS[o.status], String(o.total), o.created_at]));
+    list.forEach((o) => rows.push([String(o.order_number), o.customer_name, o.phone, o.city, PAYMENT_LABELS[o.payment_method] ?? "", o.bank ?? "", STATUS_LABELS[o.status] ?? "", String(o.total), o.created_at]));
     const blob = new Blob(["\ufeff" + rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(",")).join("\n")], { type: "text/csv" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
