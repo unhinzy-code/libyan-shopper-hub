@@ -63,7 +63,7 @@ function CartPage() {
             <span className="text-2xl font-extrabold">{money(cart.subtotal)}</span>
             <span className="text-sm text-muted-foreground">+ رسوم التوصيل حسب المدينة</span>
           </div>
-          <BrandButton className="mt-4" onClick={() => navigate({ to: session ? "/checkout" : "/auth", search: session ? undefined : { next: "/checkout" } } as never)}>
+          <BrandButton className="mt-4" onClick={() => session ? navigate({ to: "/checkout" }) : navigate({ to: "/auth", search: { next: "/checkout" } })}>
             إتمام الشراء
           </BrandButton>
         </>
