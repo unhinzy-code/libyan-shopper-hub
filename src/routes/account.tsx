@@ -32,7 +32,7 @@ function Account() {
             await qc.cancelQueries();
             qc.clear();
             await signOut();
-            navigate({ to: "/auth", search: { next: undefined }, replace: true });
+            navigate({ to: "/auth", search: {}, replace: true });
           }}
           className="w-full rounded-xl border-2 border-destructive py-3 font-bold text-destructive"
         >
