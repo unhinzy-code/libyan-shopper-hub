@@ -2,6 +2,9 @@ import { motion } from "motion/react";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { Bell, Footprints, Heart, Lock, Package, Search, ShoppingBag, Wallet, type LucideIcon } from "lucide-react";
+
+const EMPTY_ICONS: Record<string, LucideIcon> = { wallet: Wallet, bell: Bell, lock: Lock, heart: Heart, search: Search, shoe: Footprints, bag: ShoppingBag, package: Package };
 
 /** Circular Libya flag (red / black with crescent & star / green). */
 export function LibyaFlag({ className }: { className?: string }) {
@@ -65,11 +68,11 @@ export function EmptyState({
           transition={{ duration: 2.4, repeat: Infinity, delay: 0.3 }}
         />
         <motion.span
-          className="relative text-6xl"
+          className="relative text-primary"
           animate={{ y: [0, -10, 0], rotate: [0, -6, 6, 0] }}
           transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
         >
-          {emoji}
+          {(() => { const I = EMPTY_ICONS[emoji] ?? ShoppingBag; return <I className="h-16 w-16" strokeWidth={1.6} />; })()}
         </motion.span>
       </div>
       <h2 className="text-xl font-extrabold">{title}</h2>
