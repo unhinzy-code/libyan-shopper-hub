@@ -14,6 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      addresses: {
+        Row: {
+          city_id: string | null
+          created_at: string
+          details: string
+          full_name: string
+          id: string
+          is_default: boolean
+          label: string
+          phone: string
+          user_id: string
+        }
+        Insert: {
+          city_id?: string | null
+          created_at?: string
+          details?: string
+          full_name?: string
+          id?: string
+          is_default?: boolean
+          label?: string
+          phone: string
+          user_id: string
+        }
+        Update: {
+          city_id?: string | null
+          created_at?: string
+          details?: string
+          full_name?: string
+          id?: string
+          is_default?: boolean
+          label?: string
+          phone?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addresses_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           created_at: string
@@ -226,6 +270,7 @@ export type Database = {
         Row: {
           active: boolean
           category_id: string | null
+          colors: string[]
           created_at: string
           description: string
           featured: boolean
@@ -241,6 +286,7 @@ export type Database = {
         Insert: {
           active?: boolean
           category_id?: string | null
+          colors?: string[]
           created_at?: string
           description?: string
           featured?: boolean
@@ -256,6 +302,7 @@ export type Database = {
         Update: {
           active?: boolean
           category_id?: string | null
+          colors?: string[]
           created_at?: string
           description?: string
           featured?: boolean

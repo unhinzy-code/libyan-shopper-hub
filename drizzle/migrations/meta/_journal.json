@@ -29,6 +29,13 @@
       "when": 1791680802941,
       "tag": "0003_category_name_en",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791681683946,
+      "tag": "0004_colors_addresses",
+      "breakpoints": true
     }
   ]
 }
