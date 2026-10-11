@@ -1,3 +1,4 @@
+import catAll from "@/assets/cat-all.jpg";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "motion/react";
@@ -34,7 +35,7 @@ function Categories() {
       ((await supabase.from("products").select("*").eq("active", true).order("created_at", { ascending: false })).data ?? []) as Product[],
   });
   const list = (products.data ?? []).filter((p) => !cat || p.category_id === cat);
-  const items = [{ id: null as string | null, name: "الكل", image_url: null as string | null }, ...(cats.data ?? [])];
+  const items = [{ id: null as string | null, name: "الكل", image_url: catAll as string | null }, ...(cats.data ?? [])];
 
   return (
     <StoreLayout>
