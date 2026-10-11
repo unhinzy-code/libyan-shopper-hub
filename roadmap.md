@@ -16,4 +16,4 @@
 - [ ] Use wallet credit at checkout
 - [ ] Firebase push notifications — needs GOOGLE_API_KEY + Firebase connection
 - [ ] ImgBB image uploads
-- [x] Instagram/WhatsApp links (TikTok + Facebook name pending from user)
+- [x] Instagram/WhatsApp/TikTok links (TikTok @cute__shoes1); Facebook opens a search for كيوتی شوز — exact page link still pending
