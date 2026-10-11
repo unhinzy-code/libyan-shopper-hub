@@ -39,3 +39,11 @@ export const MIN_PASSWORD = 8;
 
 export const money = (n: number | string | null | undefined) =>
   `${Number(n ?? 0).toLocaleString("en-US", { maximumFractionDigits: 2 })} د.ل`;
+
+/** Support links — replace with the store's real accounts. */
+export const SOCIAL = {
+  whatsapp: "https://wa.me/218924554163",
+  instagram: "https://instagram.com/",
+  facebook: "https://facebook.com/",
+  tiktok: "https://tiktok.com/",
+};
