@@ -44,8 +44,8 @@ export function EmptyState({
 }: {
   emoji: string;
   title: string;
-  text?: string;
-  action?: { label: string; to: string; search?: Record<string, string> };
+  text?: string | undefined;
+  action?: { label: string; to: string; search?: Record<string, string> } | undefined;
 }) {
   return (
     <motion.div

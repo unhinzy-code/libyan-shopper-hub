@@ -1,10 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { money } from "@/lib/store";
 
 export function CustomersAdmin() {
   const [q, setQ] = useState("");
+  const qc = useQueryClient();
+  const credit = async (id: string, cur: number) => {
+    const v = prompt("رصيد المحفظة الجديد (د.ل)", String(cur));
+    if (v === null || isNaN(Number(v))) return;
+    const { error } = await supabase.from("profiles").update({ wallet_balance: Number(v) }).eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success("تم تحديث الرصيد");
+    qc.invalidateQueries({ queryKey: ["admin-customers"] });
+  };
   const { data } = useQuery({
     queryKey: ["admin-customers"],
     queryFn: async () => {
@@ -27,7 +37,11 @@ export function CustomersAdmin() {
         <div key={c.id} className="flex items-center justify-between rounded-2xl border bg-card p-3">
           <div>
             <p className="font-bold">{c.name || "—"}</p>
-            <a dir="ltr" href={`tel:${c.phone}`} className="text-sm text-primary">{c.phone}</a>
+            <div className="flex gap-2 text-sm">
+              <a dir="ltr" href={`tel:${c.phone}`} className="text-primary">{c.phone}</a>
+              <a href={`https://wa.me/218${c.phone.slice(1)}`} target="_blank" rel="noreferrer" className="font-bold text-success">واتساب</a>
+            </div>
+            <button onClick={() => credit(c.id, Number(c.wallet_balance))} className="mt-1 rounded-lg border px-2 text-xs">👛 المحفظة: {money(c.wallet_balance)}</button>
           </div>
           <div className="text-left text-sm">
             <p>{c.count} طلبات</p>
