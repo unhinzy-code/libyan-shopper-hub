@@ -1,3 +1,4 @@
+import { T } from "@/lib/i18n";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Footprints } from "lucide-react";
 import { Minus, Plus, Trash2 } from "lucide-react";
@@ -28,10 +29,10 @@ function CartPage() {
   return (
     <StoreLayout>
       <h1 className="mb-4 text-2xl font-extrabold">
-        سلة التسوق <span className="text-base font-normal text-muted-foreground">({cart.count} منتجات)</span>
+        {T("سلة التسوق","Shopping cart")} <span className="text-base font-normal text-muted-foreground">({cart.count} {T("منتجات","items")})</span>
       </h1>
       {cart.items.length === 0 ? (
-        <EmptyState emoji="bag" title="سلتك فاضية" text="أضف أحذية تعجبك وارجع هنا" action={{ label: "تسوق الآن", to: "/" }} />
+        <EmptyState emoji="bag" title={T("سلتك فاضية","Your cart is empty")} text={T("أضف أحذية تعجبك وارجع هنا","Add shoes you love and come back")} action={{ label: T("تسوق الآن","Shop now"), to: "/" }} />
       ) : (
         <>
           <div className="space-y-3">
@@ -44,7 +45,7 @@ function CartPage() {
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
                     <p className="font-bold text-primary">{i.name}</p>
-                    {i.size && <p className="text-sm text-muted-foreground">المقاس: {i.size}</p>}
+                    {i.size && <p className="text-sm text-muted-foreground">{T("المقاس:","Size:")} {i.size}</p>}
                     <p className="font-extrabold">{money(i.price)}</p>
                   </div>
                   <div className="flex w-fit items-center gap-4 rounded-xl border-2 border-primary/30 px-3 py-1.5">
@@ -63,10 +64,10 @@ function CartPage() {
           </div>
           <div className="mt-5 flex items-center justify-between rounded-2xl bg-accent p-4">
             <span className="text-2xl font-extrabold">{money(cart.subtotal)}</span>
-            <span className="text-sm text-muted-foreground">+ رسوم التوصيل حسب المدينة</span>
+            <span className="text-sm text-muted-foreground">{T("+ رسوم التوصيل حسب المدينة","+ delivery fee by city")}</span>
           </div>
           <BrandButton className="mt-4" onClick={() => session ? navigate({ to: "/checkout" }) : navigate({ to: "/auth", search: { next: "/checkout" } })}>
-            إتمام الشراء
+            {T("إتمام الشراء","Checkout")}
           </BrandButton>
         </>
       )}

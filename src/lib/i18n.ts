@@ -41,7 +41,9 @@ const dict = {
 
 export type TKey = keyof typeof dict;
 
-let current: Lang = "ar";
+let current: Lang = typeof window !== "undefined" && localStorage.getItem(KEY) === "en" ? "en" : "ar";
+/** Translate outside hooks; switching language reloads the page so every screen updates. */
+export const T = (ar: string, en: string) => (current === "ar" ? ar : en);
 const listeners = new Set<(l: Lang) => void>();
 
 function apply(l: Lang) {
@@ -52,8 +54,10 @@ function apply(l: Lang) {
 }
 
 export function setLang(l: Lang) {
+  const changed = l !== current;
   localStorage.setItem(KEY, l);
   apply(l);
+  if (changed) window.location.reload();
 }
 
 export function useLang() {

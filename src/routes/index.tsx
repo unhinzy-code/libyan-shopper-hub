@@ -1,3 +1,4 @@
+import { T } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Footprints, LayoutGrid } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -59,15 +60,15 @@ function Index() {
       <div className="mx-auto max-w-6xl px-4">
         {q && (
           <div className="mt-4 flex items-center justify-between rounded-2xl bg-accent px-4 py-3 text-sm font-bold">
-            <span>نتائج البحث عن: {q}</span>
-            <Link to="/" search={{}} className="text-primary">مسح</Link>
+            <span>{T("نتائج البحث عن:","Search results for:")} {q}</span>
+            <Link to="/" search={{}} className="text-primary">{T("مسح","Clear")}</Link>
           </div>
         )}
 
         <section className="mt-4">
-          <h2 className="mb-3 text-lg font-extrabold">الأقسام</h2>
+          <h2 className="mb-3 text-lg font-extrabold">{T("الأقسام","Categories")}</h2>
           <div className="no-scrollbar flex gap-4 overflow-x-auto pb-2">
-            <CatBubble active={!cat} icon={<LayoutGrid className="h-7 w-7 text-primary" />} label="الكل" onClick={() => setCat(null)} />
+            <CatBubble active={!cat} icon={<LayoutGrid className="h-7 w-7 text-primary" />} label={T("الكل","All")} onClick={() => setCat(null)} />
             {cats.data?.map((c, i) => (
               <CatBubble key={c.id} i={i} active={cat === c.id} label={c.name} img={c.image_url} onClick={() => setCat(c.id)} />
             ))}
@@ -75,22 +76,22 @@ function Index() {
         </section>
 
         {featured.length > 0 && !cat && !q && (
-          <Section title="الأكثر طلباً">
+          <Section title={T("الأكثر طلباً","Best sellers")}>
             {featured.slice(0, 4).map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
           </Section>
         )}
         {deals.length > 0 && !cat && !q && (
-          <Section title="تخفيضات">
+          <Section title={T("تخفيضات","Sales")}>
             {deals.slice(0, 4).map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
           </Section>
         )}
 
-        <Section title="كل المنتجات">
+        <Section title={T("كل المنتجات","All products")}>
           {products.isLoading
             ? Array.from({ length: 4 }).map((_, i) => <div key={i} className="aspect-[3/4] animate-pulse rounded-3xl bg-muted" />)
             : list.map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
         </Section>
-        {!products.isLoading && list.length === 0 && <EmptyState emoji="shoe" title="لا توجد منتجات" text="جرب قسم آخر أو بحث مختلف" />}
+        {!products.isLoading && list.length === 0 && <EmptyState emoji="shoe" title={T("لا توجد منتجات","No products")} text={T("جرب قسم آخر أو بحث مختلف","Try another category or search")} />}
       </div>
     </StoreLayout>
   );
