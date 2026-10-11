@@ -28,7 +28,7 @@ export function HeroCarousel({ slides }: { slides: string[] }) {
         className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto"
       >
         {slides.map((s, k) => (
-          <img key={k} src={s} alt="کیوتی شوز" className="block h-[58vh] max-h-[520px] w-full shrink-0 snap-center object-cover md:h-[70vh] md:max-h-none" />
+          <img key={k} src={s} alt="کیوتی شوز" className="block h-[42vh] max-h-[380px] w-full shrink-0 snap-center object-cover md:h-[60vh] md:max-h-none" />
         ))}
       </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />

@@ -12,9 +12,11 @@ export function CategoriesAdmin() {
   const refresh = () => qc.invalidateQueries({ queryKey: ["categories"] });
 
   const add = async () => {
-    if (!name.trim()) return;
-    const { error } = await supabase.from("categories").insert({ name: name.trim(), sort_order: (data?.length ?? 0) + 1 });
+    const n = (name.trim() || prompt("اسم القسم الجديد") || "").trim();
+    if (!n) return toast.error("اكتب اسم القسم أولاً");
+    const { error } = await supabase.from("categories").insert({ name: n, sort_order: (data?.length ?? 0) + 1 });
     if (error) return toast.error(error.message);
+    toast.success("تمت إضافة القسم");
     setName("");
     refresh();
   };
