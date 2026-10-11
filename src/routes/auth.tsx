@@ -114,12 +114,12 @@ function AuthPage() {
           )}
         </AnimatePresence>
         <PhoneField value={phone} onChange={setPhone} />
-        <div className="flex items-center gap-2 rounded-2xl border-2 px-4 transition focus-within:border-primary">
-          <input type={show ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder={`كلمة المرور (${MIN_PASSWORD} خانات على الأقل)`} className="w-full bg-transparent py-3.5 outline-none" />
-          <button type="button" aria-label="إظهار" onClick={() => setShow(!show)} className="text-muted-foreground">
-            {show ? <EyeOff className="h-5 w-5" /> : <Lock className="h-5 w-5" />}
+        <div dir="ltr" className="flex items-center gap-2 rounded-2xl border-2 px-4 transition focus-within:border-primary">
+          <Lock className="h-5 w-5 shrink-0 text-primary" />
+          <input dir="auto" type={show ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder={`كلمة المرور (${MIN_PASSWORD} خانات على الأقل)`} className="w-full bg-transparent py-3.5 outline-none" />
+          <button type="button" aria-label="إظهار كلمة المرور" onClick={() => setShow(!show)} className="shrink-0 text-muted-foreground transition active:scale-90">
+            {show ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
           </button>
-          {show && <Eye className="hidden" />}
         </div>
         <BrandButton disabled={busy}>
           {busy ? <motion.span className="inline-block h-5 w-5 rounded-full border-2 border-primary-foreground border-t-transparent" animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }} /> : mode === "login" ? "دخول" : "إنشاء حساب"}
