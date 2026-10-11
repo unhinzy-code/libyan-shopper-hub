@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/lib/auth";
 import { CartProvider } from "@/lib/cart";
 import { Toaster } from "@/components/ui/sonner";
+import { PullToRefresh } from "@/components/PullToRefresh";
 
 function NotFoundComponent() {
   return (
@@ -41,19 +42,17 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
+  const msg = error instanceof Error ? error.message : String(error);
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold text-foreground">حدث خطأ</h1>
-        <button
-          onClick={() => {
-            router.invalidate();
-            reset();
-          }}
-          className="mt-6 rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground"
-        >
-          حاول مرة أخرى
-        </button>
+      <div className="w-full max-w-md rounded-3xl border bg-card p-6 text-center shadow-soft">
+        <h1 className="text-xl font-extrabold text-foreground">حدث خطأ · Something went wrong</h1>
+        <p className="mt-3 text-sm text-muted-foreground">ما الذي حدث بالضبط:</p>
+        <pre dir="ltr" className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap break-words rounded-xl bg-muted p-3 text-left text-xs text-destructive">{msg || "Unknown error"}</pre>
+        <div className="mt-5 flex gap-2">
+          <button onClick={() => { router.invalidate(); reset(); }} className="flex-1 rounded-xl border-2 border-primary py-3 font-bold text-primary">حاول مرة أخرى</button>
+          <button onClick={() => window.location.reload()} className="flex-1 rounded-xl bg-primary py-3 font-bold text-primary-foreground">تحديث الصفحة</button>
+        </div>
       </div>
     </div>
   );
@@ -106,6 +105,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <CartProvider>
+          <PullToRefresh />
           <Outlet />
           <Toaster position="top-center" richColors />
         </CartProvider>

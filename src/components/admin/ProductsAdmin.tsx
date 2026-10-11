@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Star } from "lucide-react";
+import { Plus, Star, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,13 +14,14 @@ type Form = {
   price: string;
   old_price: string;
   stock: string;
-  sizes: string;
+  sizes: string[];
+  colors: string[];
   image_url: string | null;
   category_id: string;
   featured: boolean;
   active: boolean;
 };
-const empty: Form = { name: "", description: "", price: "", old_price: "", stock: "10", sizes: "", image_url: null, category_id: "", featured: false, active: true };
+const empty: Form = { name: "", description: "", price: "", old_price: "", stock: "10", sizes: [], colors: [], image_url: null, category_id: "", featured: false, active: true };
 
 export function ProductsAdmin() {
   const qc = useQueryClient();
@@ -47,7 +48,8 @@ export function ProductsAdmin() {
       price: Number(form.price),
       old_price: form.old_price ? Number(form.old_price) : null,
       stock: Number(form.stock || 0),
-      sizes: form.sizes.split(/[,،]/).map((s) => s.trim()).filter(Boolean),
+      sizes: form.sizes,
+      colors: form.colors,
       image_url: form.image_url,
       category_id: form.category_id || null,
       featured: form.featured,
@@ -96,7 +98,8 @@ export function ProductsAdmin() {
           <In label="السعر قبل الخصم" type="number" v={form.old_price} on={(v) => setForm({ ...form, old_price: v })} />
           <In label="الكمية" type="number" v={form.stock} on={(v) => setForm({ ...form, stock: v })} />
         </div>
-        <In label="المقاسات (افصل بفاصلة) مثال: 36, 37, 38" v={form.sizes} on={(v) => setForm({ ...form, sizes: v })} />
+        <Chips label="المقاسات (اكتب مثل XL أو 38 واضغط +)" items={form.sizes} on={(v) => setForm({ ...form, sizes: v })} />
+        <Chips label="الألوان (اكتب مثل أحمر واضغط +)" items={form.colors} on={(v) => setForm({ ...form, colors: v })} />
         <select value={form.category_id} onChange={(e) => setForm({ ...form, category_id: e.target.value })} className="w-full rounded-xl border-2 bg-card px-3 py-2">
           <option value="">بدون قسم</option>
           {cats.data?.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -129,7 +132,7 @@ export function ProductsAdmin() {
           <div className="flex flex-wrap gap-1 text-xs">
             <button onClick={() => patch(p.id, { active: !p.active })} className="rounded-lg border px-2 py-1">{p.active ? "إخفاء" : "إظهار"}</button>
             <button onClick={() => patch(p.id, { featured: !p.featured })} className="rounded-lg border px-2 py-1"><Star className="h-4 w-4" /></button>
-            <button onClick={() => setForm({ id: p.id, name: p.name, description: p.description, price: String(p.price), old_price: p.old_price ? String(p.old_price) : "", stock: String(p.stock), sizes: p.sizes.join(", "), image_url: p.image_url, category_id: p.category_id ?? "", featured: p.featured, active: p.active })} className="rounded-lg border border-primary px-2 py-1 text-primary">تعديل</button>
+            <button onClick={() => setForm({ id: p.id, name: p.name, description: p.description, price: String(p.price), old_price: p.old_price ? String(p.old_price) : "", stock: String(p.stock), sizes: p.sizes ?? [], colors: (p as Product & { colors?: string[] }).colors ?? [], image_url: p.image_url, category_id: p.category_id ?? "", featured: p.featured, active: p.active })} className="rounded-lg border border-primary px-2 py-1 text-primary">تعديل</button>
             <button onClick={() => del(p.id)} className="rounded-lg border border-destructive px-2 py-1 text-destructive">حذف</button>
           </div>
         </div>
@@ -144,5 +147,35 @@ function In({ label, v, on, type = "text" }: { label: string; v: string; on: (v:
       <span className="text-muted-foreground">{label}</span>
       <input type={type} value={v} onChange={(e) => on(e.target.value)} className="mt-1 w-full rounded-xl border-2 px-3 py-2" />
     </label>
+  );
+}
+
+function Chips({ label, items, on }: { label: string; items: string[]; on: (v: string[]) => void }) {
+  const [v, setV] = useState("");
+  const add = () => {
+    const t = v.trim().slice(0, 30);
+    if (!t) return;
+    if (items.includes(t)) return toast.error("موجود مسبقاً");
+    on([...items, t]);
+    setV("");
+  };
+  return (
+    <div className="text-sm">
+      <span className="text-muted-foreground">{label}</span>
+      <div className="mt-1 flex gap-2">
+        <input value={v} onChange={(e) => setV(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); add(); } }} className="min-w-0 flex-1 rounded-xl border-2 px-3 py-2" />
+        <button type="button" onClick={add} aria-label="إضافة" className="flex w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground active:scale-95"><Plus className="h-5 w-5" /></button>
+      </div>
+      {items.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {items.map((x) => (
+            <span key={x} className="flex items-center gap-1 rounded-full bg-accent px-3 py-1 font-bold text-accent-foreground">
+              {x}
+              <button type="button" aria-label="حذف" onClick={() => on(items.filter((i) => i !== x))}><X className="h-3.5 w-3.5" /></button>
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
