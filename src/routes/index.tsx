@@ -10,6 +10,9 @@ import { EmptyState } from "@/components/ui-kit";
 import { buzz } from "@/lib/haptics";
 import hero from "@/assets/hero-banner.jpg";
 import heroMobile from "@/assets/hero-mobile.jpg";
+import slide2 from "@/assets/hero-slide-2.jpg";
+import slide3 from "@/assets/hero-slide-3.jpg";
+import { HeroCarousel } from "@/components/HeroCarousel";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -48,12 +51,9 @@ function Index() {
 
   return (
     <StoreLayout overHero>
-      <motion.section initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="relative w-full overflow-hidden">
-        <img src={heroMobile} alt="أحذية کیوتی شوز" width={864} height={1152} className="block aspect-[3/4] w-full object-cover object-center md:hidden" />
-        <picture className="hidden md:block">
-          <img src={hero} alt="أحذية کیوتی شوز" width={1600} height={912} className="block w-full object-cover object-center md:h-[78vh]" />
-        </picture>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background via-background/60 to-transparent md:h-24" />
+      <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="relative w-full overflow-hidden">
+        <div className="md:hidden"><HeroCarousel slides={[heroMobile, slide2, slide3]} /></div>
+        <div className="hidden md:block"><HeroCarousel slides={[hero, slide2, slide3]} /></div>
       </motion.section>
 
       <div className="mx-auto max-w-6xl px-4">
