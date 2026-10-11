@@ -11,7 +11,6 @@ import { useAuth } from "@/lib/auth";
 import { buzz } from "@/lib/haptics";
 import { money, SOCIAL } from "@/lib/store";
 import sahara from "@/assets/sahara-banner.png.asset.json";
-import accountHero from "@/assets/account-hero.jpg";
 
 export const Route = createFileRoute("/account")({
   head: () => ({
@@ -48,9 +47,7 @@ function Account() {
   return (
     <StoreLayout>
       <div className="mx-auto max-w-md space-y-5">
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="relative flex min-h-[27rem] flex-col justify-end overflow-hidden rounded-3xl shadow-brand">
-          <img src={accountHero} alt="کیوتی شوز" width={1024} height={1536} className="absolute inset-0 h-full w-full object-cover object-top" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand/90 via-brand/35 to-transparent" />
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="relative flex flex-col justify-end overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-primary shadow-brand">
           {session ? (
             <div className="relative p-6 text-primary-foreground">
               <p className="text-sm font-bold opacity-90">أهلاً بك </p>
