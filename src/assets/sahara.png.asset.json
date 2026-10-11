@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "75634060-6469-4982-9ee1-600900a9d5a4",
-  "project_id": "0e7d4e02-de50-4104-8ba5-052b3de2e052",
-  "url": "/__l5e/assets-v1/75634060-6469-4982-9ee1-600900a9d5a4/sahara.png",
-  "r2_key": "a/v1/0e7d4e02-de50-4104-8ba5-052b3de2e052/75634060-6469-4982-9ee1-600900a9d5a4/sahara.png",
-  "original_filename": "sahara.png",
-  "size": 1053432,
   "content_type": "image/png",
-  "created_at": "2026-10-10T23:58:19Z"
+  "created_at": "2026-10-10T23:58:19Z",
+  "original_filename": "sahara.png",
+  "project_id": "28df8f6f-e1a2-4584-b1a9-c8129a3870c7",
+  "r2_key": "a/v1/28df8f6f-e1a2-4584-b1a9-c8129a3870c7/75634060-6469-4982-9ee1-600900a9d5a4/sahara.png",
+  "size": 1053432,
+  "url": "/__l5e/assets-v1/75634060-6469-4982-9ee1-600900a9d5a4/sahara.png",
+  "version": 1
 }
