@@ -1,3 +1,4 @@
+import { T } from "@/lib/i18n";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Footprints } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -35,19 +36,19 @@ function ProductPage() {
     queryFn: async () => (await supabase.from("products").select("*").eq("id", id).maybeSingle()).data as Product | null,
   });
 
-  if (isLoading) return <StoreLayout><p>جاري التحميل...</p></StoreLayout>;
-  if (!p) return <StoreLayout><p>المنتج غير موجود. <Link to="/" className="text-primary underline">رجوع</Link></p></StoreLayout>;
+  if (isLoading) return <StoreLayout><p>{T("جاري التحميل...","Loading...")}</p></StoreLayout>;
+  if (!p) return <StoreLayout><p>{T("المنتج غير موجود.","Product not found.")} <Link to="/" className="text-primary underline">{T("رجوع","Back")}</Link></p></StoreLayout>;
 
   const off = p.old_price && p.old_price > p.price ? Math.round((1 - p.price / p.old_price) * 100) : 0;
   const out = p.stock <= 0;
 
   const add = (go: boolean) => {
-    if (p.sizes.length && !size) return toast.error("اختر المقاس أولاً");
+    if (p.sizes.length && !size) return toast.error(T("اختر المقاس أولاً","Choose a size first"));
     const colors = (p as Product & { colors?: string[] }).colors ?? [];
-    if (colors.length && !color) return toast.error("اختر اللون أولاً");
-    if (qty > p.stock) return toast.error(`المتوفر فقط ${p.stock}`);
+    if (colors.length && !color) return toast.error(T("اختر اللون أولاً","Choose a color first"));
+    if (qty > p.stock) return toast.error(T(`المتوفر فقط ${p.stock}`,`Only ${p.stock} available`));
     cart.add({ product_id: p.id, name: p.name, price: Number(p.price), image_url: p.image_url, size: [size, color].filter(Boolean).join(" · "), qty });
-    toast.success("تمت الإضافة إلى السلة");
+    toast.success(T("تمت الإضافة إلى السلة","Added to cart"));
     if (go) navigate({ to: "/cart" });
   };
 
@@ -71,7 +72,7 @@ function ProductPage() {
           {p.description && <p className="whitespace-pre-line text-muted-foreground">{p.description}</p>}
           {p.sizes.length > 0 && (
             <div>
-              <h2 className="mb-2 font-bold">مقاس المنتج</h2>
+              <h2 className="mb-2 font-bold">{T("مقاس المنتج","Size")}</h2>
               <div className="flex flex-wrap gap-2">
                 {p.sizes.map((s) => (
                   <button key={s} onClick={() => setSize(s)} className={cn("min-w-14 rounded-full border px-4 py-2 font-bold", size === s ? "border-primary bg-primary text-primary-foreground" : "bg-card")}>
@@ -83,7 +84,7 @@ function ProductPage() {
           )}
           {((p as Product & { colors?: string[] }).colors ?? []).length > 0 && (
             <div>
-              <h2 className="mb-2 font-bold">اللون</h2>
+              <h2 className="mb-2 font-bold">{T("اللون","Color")}</h2>
               <div className="flex flex-wrap gap-2">
                 {(p as Product & { colors?: string[] }).colors!.map((c) => (
                   <button key={c} onClick={() => setColor(c)} className={cn("rounded-full border px-4 py-2 font-bold transition active:scale-95", color === c ? "border-primary bg-primary text-primary-foreground" : "bg-card")}>
@@ -94,7 +95,7 @@ function ProductPage() {
             </div>
           )}
           <p className={cn("text-sm font-bold", out ? "text-destructive" : p.stock < 5 ? "text-secondary-foreground" : "text-success")}>
-            {out ? "نفذت الكمية" : p.stock < 5 ? `باقي ${p.stock} فقط!` : "متوفر"}
+            {out ? T("نفذت الكمية","Out of stock") : p.stock < 5 ? T(`باقي ${p.stock} فقط!`,`Only ${p.stock} left!`) : T("متوفر","In stock")}
           </p>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-4 rounded-xl border-2 border-primary/30 px-4 py-3">
@@ -103,10 +104,10 @@ function ProductPage() {
               <button onClick={() => setQty(Math.max(1, qty - 1))}><Minus className="h-5 w-5" /></button>
             </div>
             <button disabled={out} onClick={() => add(false)} className="flex-1 rounded-xl border-2 border-primary py-3 font-bold text-primary disabled:opacity-50">
-              أضف للسلة
+              {T("أضف للسلة","Add to cart")}
             </button>
           </div>
-          <BrandButton disabled={out} onClick={() => add(true)}>اشتري الآن</BrandButton>
+          <BrandButton disabled={out} onClick={() => add(true)}>{T("اشتري الآن","Buy now")}</BrandButton>
         </div>
       </div>
     </StoreLayout>
