@@ -44,6 +44,6 @@ export const money = (n: number | string | null | undefined) =>
 export const SOCIAL = {
   whatsapp: "https://wa.me/218919720022",
   instagram: "https://instagram.com/cutie_shoes22",
-  facebook: "https://facebook.com/search/top?q=cutie_shoes22",
-  tiktok: "https://tiktok.com/",
+  facebook: "https://www.facebook.com/search/top?q=%D9%83%DB%8C%D9%88%D8%AA%DB%8C%20%D8%B4%D9%88%D8%B2",
+  tiktok: "https://www.tiktok.com/@cute__shoes1",
 };
