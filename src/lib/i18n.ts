@@ -66,5 +66,6 @@ export function useLang() {
     return () => { listeners.delete(set); };
   }, []);
   const t = (k: TKey) => dict[k][lang === "ar" ? 0 : 1];
-  return { lang, t, setLang };
+  const tr = (ar: string, en: string) => (lang === "ar" ? ar : en);
+  return { lang, t, tr, setLang };
 }
