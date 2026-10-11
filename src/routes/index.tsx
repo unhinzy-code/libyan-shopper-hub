@@ -53,7 +53,7 @@ function Index() {
         <picture className="hidden md:block">
           <img src={hero} alt="أحذية کیوتی شوز" width={1600} height={912} className="block w-full object-cover object-center md:h-[78vh]" />
         </picture>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-24 md:block bg-gradient-to-t from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background via-background/60 to-transparent md:h-24" />
       </motion.section>
 
       <div className="mx-auto max-w-6xl px-4">
