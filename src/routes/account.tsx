@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "motion/react";
-import { Bell, ChevronLeft, Globe, Heart, LogOut, MapPin, Package, UserPlus, Sparkles, Shield, Star, Truck, Wallet, LogIn } from "lucide-react";
+import { Bell, ChevronLeft, Globe, Heart, LogOut, MapPin, Package, Sparkles, Shield, Star, Truck, Wallet, LogIn } from "lucide-react";
 import { FaWhatsapp, FaInstagram, FaFacebook, FaTiktok } from "react-icons/fa";
 import { useState, type ReactNode } from "react";
 import { toast } from "sonner";
