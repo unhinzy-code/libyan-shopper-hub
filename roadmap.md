@@ -1,17 +1,19 @@
 # Roadmap
-- [ ] Update GOOGLE_API_KEY secret
-- [ ] Reset Drizzle migrations for new database
-- [ ] White + light pink theme everywhere
-- [ ] Top bar: search, notifications, favorites; transparent over hero, white on scroll
-- [ ] Full-width image-only hero, square corners
-- [ ] Product cards: rating 3.9–5, discounts, heart + add-to-cart with animations
-- [ ] Circle category images with names
-- [ ] Page transitions, button animations, phone vibration on taps
-- [ ] Libya flag circle on phone inputs (login, register, checkout)
-- [ ] Animated login/register, empty states (cart, favorites, logged out)
-- [ ] Profile: settings, notifications, location, language, support (WhatsApp/Instagram/Facebook logos), rate app, logout; Track/Favorites/Wallet quick buttons; viewable logged out
-- [ ] "Made by Sahara" + logo linking to sts.com.ly
-- [ ] Delivery prices per city from uploaded list
-- [ ] Better order tracking + checkout success animation
-- [ ] 30+ admin panel features
-- [ ] Image uploads via ImgBB; Firebase push notifications
+- [ ] Update GOOGLE_API_KEY secret — waiting on user to enter it
+- [x] Reset Drizzle migrations for new database
+- [x] White + light pink theme
+- [x] Top bar: search, notifications, favorites; transparent over hero, white on scroll
+- [x] Full-width image-only hero
+- [x] Product cards: rating, discounts, heart + add-to-cart animations
+- [x] Circle category images
+- [x] Page transitions, button animations, phone vibration
+- [x] Libya flag on phone inputs
+- [x] Animated login/register and empty states
+- [x] Profile with settings, support, rate app, quick buttons, Made by Sahara
+- [x] Delivery prices + days per city
+- [x] Order tracking + checkout success animation
+- [ ] More admin features (added: category photos, delivery days, wallet credit, announcements, WhatsApp customers) — continue toward 30+
+- [ ] Use wallet credit at checkout
+- [ ] Firebase push notifications — needs GOOGLE_API_KEY + Firebase connection
+- [ ] ImgBB image uploads
+- [ ] Real Instagram/Facebook/TikTok links — waiting on user
