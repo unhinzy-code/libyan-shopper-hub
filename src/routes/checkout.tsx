@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Banknote, Landmark } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -43,6 +43,24 @@ function Checkout() {
     queryKey: ["cities"],
     queryFn: async () => (await supabase.from("cities").select("*").eq("active", true).order("name")).data ?? [],
   });
+  const saved = useQuery({
+    queryKey: ["addresses", session?.user.id],
+    enabled: !!session,
+    queryFn: async () => (await supabase.from("addresses").select("*").order("is_default", { ascending: false })).data ?? [],
+  });
+  const [pickedAddr, setPickedAddr] = useState<string | null>(null);
+  const useAddr = (a: { id: string; city_id: string | null; details: string; phone: string; full_name: string }) => {
+    setPickedAddr(a.id);
+    if (a.city_id) setCityId(a.city_id);
+    setDetails([a.full_name, a.details].filter(Boolean).join(" — "));
+    setPhoneTouched(true);
+    setPhone(a.phone);
+  };
+  useEffect(() => {
+    const d = saved.data?.[0];
+    if (d && !pickedAddr && !cityId) useAddr(d);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saved.data]);
   const city = cities.data?.find((c) => c.id === cityId);
   const fee = Number(city?.delivery_fee ?? 0);
 
@@ -78,6 +96,19 @@ function Checkout() {
       <h1 className="mb-4 text-2xl font-extrabold">مراجعة الطلب</h1>
       <div className="space-y-5">
         <section className="space-y-3 rounded-3xl bg-card p-4 shadow-soft">
+          {(saved.data?.length ?? 0) > 0 && (
+            <div className="space-y-2">
+              <h2 className="font-bold">عناويني المحفوظة</h2>
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {saved.data!.map((a) => (
+                  <button key={a.id} onClick={() => useAddr(a)} className={cn("shrink-0 rounded-2xl border-2 px-4 py-2 text-sm font-bold transition active:scale-95", pickedAddr === a.id ? "border-primary bg-accent text-primary" : "")}>
+                    {a.label || a.full_name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          <Link to="/addresses" className="text-sm font-bold text-primary underline">+ إدارة العناوين</Link>
           <h2 className="font-bold">رقم التواصل</h2>
           <PhoneField value={shownPhone} onChange={(v) => { setPhoneTouched(true); setPhone(v); }} />
           <h2 className="font-bold">عنوان التوصيل</h2>

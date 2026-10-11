@@ -29,6 +29,7 @@ function ProductPage() {
   const navigate = useNavigate();
   const [size, setSize] = useState("");
   const [qty, setQty] = useState(1);
+  const [color, setColor] = useState("");
   const { data: p, isLoading } = useQuery({
     queryKey: ["product", id],
     queryFn: async () => (await supabase.from("products").select("*").eq("id", id).maybeSingle()).data as Product | null,
@@ -42,8 +43,10 @@ function ProductPage() {
 
   const add = (go: boolean) => {
     if (p.sizes.length && !size) return toast.error("اختر المقاس أولاً");
+    const colors = (p as Product & { colors?: string[] }).colors ?? [];
+    if (colors.length && !color) return toast.error("اختر اللون أولاً");
     if (qty > p.stock) return toast.error(`المتوفر فقط ${p.stock}`);
-    cart.add({ product_id: p.id, name: p.name, price: Number(p.price), image_url: p.image_url, size, qty });
+    cart.add({ product_id: p.id, name: p.name, price: Number(p.price), image_url: p.image_url, size: [size, color].filter(Boolean).join(" · "), qty });
     toast.success("تمت الإضافة إلى السلة");
     if (go) navigate({ to: "/cart" });
   };
@@ -73,6 +76,18 @@ function ProductPage() {
                 {p.sizes.map((s) => (
                   <button key={s} onClick={() => setSize(s)} className={cn("min-w-14 rounded-full border px-4 py-2 font-bold", size === s ? "border-primary bg-primary text-primary-foreground" : "bg-card")}>
                     {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {((p as Product & { colors?: string[] }).colors ?? []).length > 0 && (
+            <div>
+              <h2 className="mb-2 font-bold">اللون</h2>
+              <div className="flex flex-wrap gap-2">
+                {(p as Product & { colors?: string[] }).colors!.map((c) => (
+                  <button key={c} onClick={() => setColor(c)} className={cn("rounded-full border px-4 py-2 font-bold transition active:scale-95", color === c ? "border-primary bg-primary text-primary-foreground" : "bg-card")}>
+                    {c}
                   </button>
                 ))}
               </div>
