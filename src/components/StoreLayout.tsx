@@ -138,15 +138,12 @@ export function StoreLayout({ children, overHero = false }: { children: ReactNod
         </div>
       </header>
 
-      <motion.main
+      <main
         key={path}
-        initial={animate ? { opacity: 0, y: 14 } : false}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        className={cn(!overHero && "mx-auto max-w-6xl px-4 py-5")}
+        className={cn("page-in", !overHero && "mx-auto max-w-6xl px-4 py-5")}
       >
         {children}
-      </motion.main>
+      </main>
 
       <nav className="fixed inset-x-3 bottom-3 z-40 rounded-3xl border bg-card/95 shadow-soft backdrop-blur md:hidden">
         <div className="flex justify-around py-2">
