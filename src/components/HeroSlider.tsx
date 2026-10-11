@@ -29,7 +29,7 @@ export function HeroSlider() {
   }, [i]);
 
   return (
-    <div className="relative w-full bg-accent pt-28">
+    <div className="relative w-full bg-accent pt-16">
       <div ref={ref} onScroll={onScroll} className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto">
         {SLIDES.map((src, n) => (
           <img key={n} src={src} alt="عروض کیوتی شوز" width={1280} height={768} loading={n ? "lazy" : "eager"} className="aspect-[5/3] w-full shrink-0 snap-center object-cover" />
