@@ -56,26 +56,20 @@ function Account() {
               <p dir="ltr" className="text-right opacity-90">{profile?.phone}</p>
             </div>
           ) : (
-            <div className="relative space-y-4 text-center">
-              <motion.div initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 200 }} className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-card/25 backdrop-blur">
-                <Sparkles className="h-8 w-8" />
-              </motion.div>
-              <div>
-                <h1 className="text-2xl font-extrabold">مرحباً بك في کیوتی شوز</h1>
-                <p className="mt-1 text-sm opacity-90">سجّلي دخولك لتتبع طلباتك، حفظ المفضلة واستخدام المحفظة</p>
+            <div className="relative flex flex-col items-center gap-4 py-2 text-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary shadow-soft">
+                <Sparkles className="h-7 w-7" />
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <motion.div whileTap={{ scale: 0.94 }} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}>
-                  <Link to="/auth" search={{}} onClick={() => buzz()} className="flex items-center justify-center gap-2 rounded-2xl bg-card py-3 font-bold text-primary shadow-soft">
-                    <LogIn className="h-4 w-4" /> تسجيل الدخول
-                  </Link>
-                </motion.div>
-                <motion.div whileTap={{ scale: 0.94 }} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }}>
-                  <Link to="/auth" search={{}} onClick={() => buzz()} className="flex items-center justify-center gap-2 rounded-2xl border-2 border-card/70 py-3 font-bold">
-                    <UserPlus className="h-4 w-4" /> حساب جديد
-                  </Link>
-                </motion.div>
+              <div className="space-y-1">
+                <h1 className="text-xl font-extrabold">أهلاً بك في کیوتی شوز</h1>
+                <p className="text-sm opacity-90">سجّلي دخولك لمتابعة طلباتك ومفضلتك</p>
               </div>
+              <Link to="/auth" search={{}} onClick={() => buzz()} className="flex w-full items-center justify-center gap-2 rounded-2xl bg-card py-3.5 font-bold text-primary shadow-soft transition active:scale-95">
+                <LogIn className="h-5 w-5" /> تسجيل الدخول
+              </Link>
+              <Link to="/auth" search={{}} onClick={() => buzz()} className="text-sm font-bold underline-offset-4 hover:underline">
+                ليس لديك حساب؟ إنشاء حساب جديد
+              </Link>
             </div>
           )}
         </motion.div>

@@ -10,16 +10,6 @@ export function HeroSlider() {
   const ref = useRef<HTMLDivElement>(null);
   const [i, setI] = useState(0);
 
-  useEffect(() => {
-    const t = setInterval(() => {
-      const el = ref.current;
-      if (!el) return;
-      const next = (i + 1) % SLIDES.length;
-      el.scrollTo({ left: -next * el.clientWidth * (document.dir === "rtl" ? 1 : -1) * -1, behavior: "smooth" });
-    }, 4000);
-    return () => clearInterval(t);
-  }, [i]);
-
   const onScroll = () => {
     const el = ref.current;
     if (!el) return;
