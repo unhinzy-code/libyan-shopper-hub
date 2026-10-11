@@ -13,11 +13,11 @@ export function PullToRefresh() {
 
   useEffect(() => {
     const down = (e: TouchEvent) => {
-      start.current = window.scrollY <= 0 ? e.touches[0].clientY : null;
+      start.current = window.scrollY <= 0 ? (e.touches[0]?.clientY ?? 0) : null;
     };
     const move = (e: TouchEvent) => {
       if (start.current == null || window.scrollY > 0) return;
-      const d = Math.max(0, (e.touches[0].clientY - start.current) * 0.5);
+      const d = Math.max(0, ((e.touches[0]?.clientY ?? 0) - start.current) * 0.5);
       setPull(Math.min(d, 120));
       if (d >= TRIGGER && !armed.current) { armed.current = true; buzz(); }
       if (d < TRIGGER) armed.current = false;
