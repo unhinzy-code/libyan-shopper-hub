@@ -1,0 +1,4 @@
+GRANT SELECT ON public.categories, public.cities, public.products, public.notifications TO anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.categories, public.cities, public.products, public.notifications, public.favorites, public.orders, public.order_items, public.profiles, public.user_roles TO authenticated;
+GRANT ALL ON public.categories, public.cities, public.products, public.notifications, public.favorites, public.orders, public.order_items, public.profiles, public.user_roles TO service_role;
+GRANT EXECUTE ON FUNCTION public.place_order(jsonb, uuid, text, text, text, text), public.attach_receipt(uuid, text), public.has_role(uuid, app_role), public.is_staff(uuid) TO authenticated;
