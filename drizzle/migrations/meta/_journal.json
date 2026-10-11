@@ -8,6 +8,13 @@
       "when": 1791682566649,
       "tag": "0000_signup_trigger_owner",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791683003424,
+      "tag": "0001_restrict_cities_read_to_authenticated",
+      "breakpoints": true
     }
   ]
 }
