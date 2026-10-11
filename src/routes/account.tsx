@@ -47,27 +47,28 @@ function Account() {
   return (
     <StoreLayout>
       <div className="mx-auto max-w-md space-y-5">
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="relative overflow-hidden rounded-3xl bg-brand p-6 text-primary-foreground shadow-brand">
-          <motion.span className="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-card/15" animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 5, repeat: Infinity }} />
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="relative flex min-h-[27rem] flex-col justify-end overflow-hidden rounded-3xl shadow-brand">
+          <img src={accountHero} alt="کیوتی شوز" width={1024} height={1536} className="absolute inset-0 h-full w-full object-cover object-top" />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand/90 via-brand/35 to-transparent" />
           {session ? (
-            <div className="relative">
-              <p className="text-sm opacity-90">أهلاً بك </p>
-              <h1 className="text-2xl font-extrabold">{profile?.name || "عميلتنا"}</h1>
-              <p dir="ltr" className="text-right opacity-90">{profile?.phone}</p>
+            <div className="relative p-6 text-primary-foreground">
+              <p className="text-sm font-bold opacity-90">أهلاً بك </p>
+              <h1 className="text-2xl font-extrabold drop-shadow-sm">{profile?.name || "عميلتنا"}</h1>
+              <p dir="ltr" className="text-right font-bold opacity-90">{profile?.phone}</p>
             </div>
           ) : (
-            <div className="relative flex flex-col items-center gap-4 py-2 text-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary shadow-soft">
-                <Sparkles className="h-7 w-7" />
+            <div className="relative flex flex-col items-center gap-3 p-6 pt-4 text-center text-primary-foreground">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-card text-primary shadow-soft">
+                <UserRound className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-xl font-extrabold">أهلاً بك في کیوتی شوز</h1>
-                <p className="text-sm opacity-90">سجّلي دخولك لمتابعة طلباتك ومفضلتك</p>
+                <h1 className="text-xl font-extrabold drop-shadow-sm">أهلاً بك في کیوتی شوز</h1>
+                <p className="text-sm font-bold opacity-95 drop-shadow-sm">سجّلي دخولك لمتابعة طلباتك ومفضلتك</p>
               </div>
               <Link to="/auth" search={{}} onClick={() => buzz()} className="flex w-full items-center justify-center gap-2 rounded-2xl bg-card py-3.5 font-bold text-primary shadow-soft transition active:scale-95">
                 <LogIn className="h-5 w-5" /> تسجيل الدخول
               </Link>
-              <Link to="/auth" search={{}} onClick={() => buzz()} className="text-sm font-bold underline-offset-4 hover:underline">
+              <Link to="/auth" search={{}} onClick={() => buzz()} className="text-sm font-bold underline-offset-4 drop-shadow-sm hover:underline">
                 ليس لديك حساب؟ إنشاء حساب جديد
               </Link>
             </div>
