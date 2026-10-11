@@ -333,6 +333,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
       place_order: {
         Args: {
           _bank: string
@@ -346,7 +347,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "user" | "staff"
       order_status:
         | "pending"
         | "confirmed"
@@ -481,7 +482,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "user", "staff"],
       order_status: [
         "pending",
         "confirmed",
