@@ -68,7 +68,7 @@ function Index() {
         <section className="mt-4">
           <h2 className="mb-3 text-lg font-extrabold">{T("الأقسام","Categories")}</h2>
           <div className="no-scrollbar flex gap-4 overflow-x-auto pb-2">
-            <CatBubble active={!cat} icon={<LayoutGrid className="h-7 w-7 text-primary" />} label={T(T("الكل","All"),"All")} onClick={() => setCat(null)} />
+            <CatBubble active={!cat} icon={<LayoutGrid className="h-7 w-7 text-primary" />} label={T("الكل","All")} onClick={() => setCat(null)} />
             {cats.data?.map((c, i) => (
               <CatBubble key={c.id} i={i} active={cat === c.id} label={c.name} img={c.image_url} onClick={() => setCat(c.id)} />
             ))}
@@ -76,22 +76,22 @@ function Index() {
         </section>
 
         {featured.length > 0 && !cat && !q && (
-          <Section title={T(T("الأكثر طلباً","Best sellers"),"Best sellers")}>
+          <Section title={T("الأكثر طلباً","Best sellers")}>
             {featured.slice(0, 4).map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
           </Section>
         )}
         {deals.length > 0 && !cat && !q && (
-          <Section title={T(T("تخفيضات","Sales"),"Sales")}>
+          <Section title={T("تخفيضات","Sales")}>
             {deals.slice(0, 4).map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
           </Section>
         )}
 
-        <Section title={T(T("كل المنتجات","All products"),"All products")}>
+        <Section title={T("كل المنتجات","All products")}>
           {products.isLoading
             ? Array.from({ length: 4 }).map((_, i) => <div key={i} className="aspect-[3/4] animate-pulse rounded-3xl bg-muted" />)
             : list.map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
         </Section>
-        {!products.isLoading && list.length === 0 && <EmptyState emoji="shoe" title={T(T("لا توجد منتجات","No products"),"No products")} text={T(T("جرب قسم آخر أو بحث مختلف","Try another category or search"),"Try another category or search")} />}
+        {!products.isLoading && list.length === 0 && <EmptyState emoji="shoe" title={T("لا توجد منتجات","No products")} text={T("جرب قسم آخر أو بحث مختلف","Try another category or search")} />}
       </div>
     </StoreLayout>
   );

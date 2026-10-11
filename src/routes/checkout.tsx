@@ -66,9 +66,9 @@ function Checkout() {
   const fee = Number(city?.delivery_fee ?? 0);
 
   if (!loading && !session)
-    return <StoreLayout><EmptyState emoji="lock" title={T(T("سجّل دخول لإتمام الطلب","Sign in to place your order"),"Sign in to place your order")} action={{ label: T("دخول","Sign in"), to: "/auth", search: { next: "/checkout" } }} /></StoreLayout>;
+    return <StoreLayout><EmptyState emoji="lock" title={T("سجّل دخول لإتمام الطلب","Sign in to place your order")} action={{ label: T("دخول","Sign in"), to: "/auth", search: { next: "/checkout" } }} /></StoreLayout>;
   if (cart.items.length === 0)
-    return <StoreLayout><EmptyState emoji="bag" title={T(T("السلة فاضية","Cart is empty"),"Cart is empty")} action={{ label: T("تسوق","Shop"), to: "/" }} /></StoreLayout>;
+    return <StoreLayout><EmptyState emoji="bag" title={T("السلة فاضية","Cart is empty")} action={{ label: T("تسوق","Shop"), to: "/" }} /></StoreLayout>;
 
   const place = async () => {
     if (!cityId) return toast.error(T("اختر المدينة","Choose city"));
@@ -120,7 +120,7 @@ function Checkout() {
             ))}
           </select>
           {city?.delivery_days && <p className="rounded-xl bg-accent px-3 py-2 text-sm font-bold text-accent-foreground">{T("أيام التوصيل:","Delivery days:")} {city.delivery_days}</p>}
-          <textarea value={details} onChange={(e) => setDetails(e.target.value)} maxLength={500} placeholder={T(T("تفاصيل العنوان (اختياري): الحي، الشارع، أقرب معلم...","Address details (optional): area, street, landmark..."),"Address details (optional): area, street, landmark...")} className="min-h-20 w-full rounded-xl border-2 px-4 py-3" />
+          <textarea value={details} onChange={(e) => setDetails(e.target.value)} maxLength={500} placeholder={T("تفاصيل العنوان (اختياري): الحي، الشارع، أقرب معلم...","Address details (optional): area, street, landmark...")} className="min-h-20 w-full rounded-xl border-2 px-4 py-3" />
         </section>
 
         <section className="space-y-3 rounded-3xl bg-card p-4 shadow-soft">
@@ -147,12 +147,12 @@ function Checkout() {
           )}
         </section>
 
-        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} maxLength={500} placeholder={T(T("ملاحظات الطلب (اختياري)","Order notes (optional)"),"Order notes (optional)")} className="min-h-16 w-full rounded-xl border-2 px-4 py-3" />
+        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} maxLength={500} placeholder={T("ملاحظات الطلب (اختياري)","Order notes (optional)")} className="min-h-16 w-full rounded-xl border-2 px-4 py-3" />
 
         <section className="space-y-2 rounded-2xl bg-accent p-4">
-          <Row k={T(T("المجموع الجزئي","Subtotal"),"Subtotal")} v={money(cart.subtotal)} />
-          <Row k={T(T("التوصيل","Delivery"),"Delivery")} v={city ? money(fee) : "—"} />
-          <div className="border-t pt-2"><Row k={T(T("المجموع الكلي","Total"),"Total")} v={money(cart.subtotal + fee)} bold /></div>
+          <Row k={T("المجموع الجزئي","Subtotal")} v={money(cart.subtotal)} />
+          <Row k={T("التوصيل","Delivery")} v={city ? money(fee) : "—"} />
+          <div className="border-t pt-2"><Row k={T("المجموع الكلي","Total")} v={money(cart.subtotal + fee)} bold /></div>
         </section>
         <BrandButton disabled={busy} onClick={place}>{busy ? "..." : T(`اطلب الآن ${money(cart.subtotal + fee)}`,`Order now ${money(cart.subtotal + fee)}`)}</BrandButton>
       </div>

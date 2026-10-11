@@ -32,7 +32,7 @@ function CartPage() {
         {T("سلة التسوق","Shopping cart")} <span className="text-base font-normal text-muted-foreground">({cart.count} {T("منتجات","items")})</span>
       </h1>
       {cart.items.length === 0 ? (
-        <EmptyState emoji="bag" title={T(T("سلتك فاضية","Your cart is empty"),"Your cart is empty")} text={T(T("أضف أحذية تعجبك وارجع هنا","Add shoes you love and come back"),"Add shoes you love and come back")} action={{ label: T("تسوق الآن","Shop now"), to: "/" }} />
+        <EmptyState emoji="bag" title={T("سلتك فاضية","Your cart is empty")} text={T("أضف أحذية تعجبك وارجع هنا","Add shoes you love and come back")} action={{ label: T("تسوق الآن","Shop now"), to: "/" }} />
       ) : (
         <>
           <div className="space-y-3">

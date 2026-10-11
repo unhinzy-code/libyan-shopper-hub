@@ -49,7 +49,7 @@ export function ProductCard({ p, index = 0 }: { p: Product; index?: number }) {
     buzz(20);
     if (p.stock <= 0) return toast.error(T("نفذت الكمية","Out of stock"));
     if (p.sizes.length) {
-      toast(T(T("اختر المقاس أولاً","Choose a size first"),"Choose a size first"));
+      toast(T("اختر المقاس أولاً","Choose a size first"));
       return;
     }
     cart.add({ product_id: p.id, name: p.name, price: Number(p.price), image_url: p.image_url, size: "", qty: 1 });
@@ -75,7 +75,7 @@ export function ProductCard({ p, index = 0 }: { p: Product; index?: number }) {
           {off > 0 && (
             <span className="absolute right-2 top-2 rounded-full bg-destructive px-2 py-0.5 text-xs font-bold text-destructive-foreground">-{off}%</span>
           )}
-          <button aria-label={T(T("مفضلة","Favorite"),"Favorite")} onClick={onHeart} className="absolute left-2 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-card/90 shadow-soft backdrop-blur">
+          <button aria-label={T("مفضلة","Favorite")} onClick={onHeart} className="absolute left-2 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-card/90 shadow-soft backdrop-blur">
             <motion.span key={liked ? "on" : "off"} initial={{ scale: 0.4 }} animate={{ scale: [0.4, 1.35, 1] }} transition={{ duration: 0.4 }}>
               <Heart className={cn("h-5 w-5", liked ? "fill-primary text-primary" : "text-foreground")} />
             </motion.span>
@@ -85,7 +85,7 @@ export function ProductCard({ p, index = 0 }: { p: Product; index?: number }) {
               )}
             </AnimatePresence>
           </button>
-          <button aria-label={T(T("أضف للسلة","Add to cart"),"Add to cart")} onClick={onAdd} className="absolute bottom-2 left-2 flex h-9 w-9 items-center justify-center rounded-full bg-brand text-primary-foreground shadow-brand">
+          <button aria-label={T("أضف للسلة","Add to cart")} onClick={onAdd} className="absolute bottom-2 left-2 flex h-9 w-9 items-center justify-center rounded-full bg-brand text-primary-foreground shadow-brand">
             <AnimatePresence mode="wait">
               <motion.span key={added ? "y" : "n"} initial={{ rotate: -90, scale: 0 }} animate={{ rotate: 0, scale: 1 }} exit={{ rotate: 90, scale: 0 }}>
                 {added ? <Check className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
