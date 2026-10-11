@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { Dashboard } from "@/components/admin/Dashboard";
 import { OrdersAdmin } from "@/components/admin/OrdersAdmin";
 import { ProductsAdmin } from "@/components/admin/ProductsAdmin";
-import { CategoriesAdmin, CitiesAdmin } from "@/components/admin/SimpleAdmins";
+import { CategoriesAdmin, CitiesAdmin, NotificationsAdmin } from "@/components/admin/SimpleAdmins";
 import { CustomersAdmin } from "@/components/admin/CustomersAdmin";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +30,7 @@ const TABS = [
   ["cats", "🗂️ الأقسام"],
   ["cities", "📍 المدن والتوصيل"],
   ["customers", "👥 الزبائن"],
+  ["notifs", "🔔 الإشعارات"],
 ] as const;
 
 function Admin() {
@@ -54,6 +55,7 @@ function Admin() {
       {tab === "cats" && <CategoriesAdmin />}
       {tab === "cities" && <CitiesAdmin />}
       {tab === "customers" && <CustomersAdmin />}
+      {tab === "notifs" && <NotificationsAdmin />}
     </StoreLayout>
   );
 }

@@ -6,6 +6,8 @@ import { Banknote, Landmark } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { StoreLayout, BrandButton } from "@/components/StoreLayout";
 import { BankList } from "@/components/BankList";
+import { EmptyState, PhoneField } from "@/components/ui-kit";
+import { normalizePhone } from "@/lib/store";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import { money } from "@/lib/store";
@@ -25,7 +27,10 @@ export const Route = createFileRoute("/checkout")({
 
 function Checkout() {
   const cart = useCart();
-  const { session, loading } = useAuth();
+  const { session, loading, profile } = useAuth();
+  const [phone, setPhone] = useState("");
+  const [phoneTouched, setPhoneTouched] = useState(false);
+  const shownPhone = phoneTouched ? phone : profile?.phone ?? "";
   const navigate = useNavigate();
   const [cityId, setCityId] = useState("");
   const [details, setDetails] = useState("");
@@ -42,49 +47,51 @@ function Checkout() {
   const fee = Number(city?.delivery_fee ?? 0);
 
   if (!loading && !session)
-    return (
-      <StoreLayout>
-        <p>لازم تسجل دخول أولاً. <Link to="/auth" search={{ next: "/checkout" }} className="font-bold text-primary underline">دخول</Link></p>
-      </StoreLayout>
-    );
+    return <StoreLayout><EmptyState emoji="🔐" title="سجّل دخول لإتمام الطلب" action={{ label: "دخول", to: "/auth", search: { next: "/checkout" } }} /></StoreLayout>;
   if (cart.items.length === 0)
-    return <StoreLayout><p>السلة فاضية. <Link to="/" className="text-primary underline">تسوق</Link></p></StoreLayout>;
+    return <StoreLayout><EmptyState emoji="🛍️" title="السلة فاضية" action={{ label: "تسوق", to: "/" }} /></StoreLayout>;
 
   const place = async () => {
     if (!cityId) return toast.error("اختر المدينة");
     if (payment === "transfer" && !bank) return toast.error("اختر المصرف الذي ستحول إليه");
+    const ph = normalizePhone(shownPhone);
+    if (!ph) return toast.error("رقم الهاتف غير صحيح");
     setBusy(true);
+    const fullNotes = ph !== profile?.phone ? `رقم التواصل: ${ph}\n${notes}` : notes;
     const { data, error } = await supabase.rpc("place_order", {
       _items: cart.items.map((i) => ({ product_id: i.product_id, qty: i.qty, size: i.size })),
       _city_id: cityId,
       _details: details,
       _payment: payment,
       _bank: bank ?? "",
-      _notes: notes,
+      _notes: fullNotes,
     });
     setBusy(false);
     if (error) return toast.error(error.message);
     cart.clear();
     const res = data as { id: string };
-    navigate({ to: "/order/$id", params: { id: res.id } });
+    navigate({ to: "/order/$id", params: { id: res.id }, search: { placed: true } });
   };
 
   return (
     <StoreLayout>
       <h1 className="mb-4 text-2xl font-extrabold">مراجعة الطلب</h1>
       <div className="space-y-5">
-        <section className="space-y-3 rounded-2xl border bg-card p-4">
+        <section className="space-y-3 rounded-3xl bg-card p-4 shadow-soft">
+          <h2 className="font-bold">📞 رقم التواصل</h2>
+          <PhoneField value={shownPhone} onChange={(v) => { setPhoneTouched(true); setPhone(v); }} />
           <h2 className="font-bold">📍 عنوان التوصيل</h2>
-          <select value={cityId} onChange={(e) => setCityId(e.target.value)} className="w-full rounded-xl border-2 bg-card px-4 py-3">
+          <select value={cityId} onChange={(e) => setCityId(e.target.value)} className="w-full rounded-2xl border-2 bg-card px-4 py-3 outline-none focus:border-primary">
             <option value="">اختر المدينة</option>
             {cities.data?.map((c) => (
-              <option key={c.id} value={c.id}>{c.name} — توصيل {money(c.delivery_fee)}</option>
+              <option key={c.id} value={c.id}>{c.name} — {money(c.delivery_fee)}{c.delivery_days ? ` (${c.delivery_days})` : ""}</option>
             ))}
           </select>
+          {city?.delivery_days && <p className="rounded-xl bg-accent px-3 py-2 text-sm font-bold text-accent-foreground">🚚 أيام التوصيل: {city.delivery_days}</p>}
           <textarea value={details} onChange={(e) => setDetails(e.target.value)} maxLength={500} placeholder="تفاصيل العنوان (اختياري): الحي، الشارع، أقرب معلم..." className="min-h-20 w-full rounded-xl border-2 px-4 py-3" />
         </section>
 
-        <section className="space-y-3 rounded-2xl border bg-card p-4">
+        <section className="space-y-3 rounded-3xl bg-card p-4 shadow-soft">
           <h2 className="font-bold">طريقة الدفع</h2>
           <div className="grid grid-cols-2 gap-3">
             {[

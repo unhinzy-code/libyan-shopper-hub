@@ -41,21 +41,80 @@ export type Database = {
       cities: {
         Row: {
           active: boolean
+          delivery_days: string
           delivery_fee: number
           id: string
           name: string
         }
         Insert: {
           active?: boolean
+          delivery_days?: string
           delivery_fee?: number
           id?: string
           name: string
         }
         Update: {
           active?: boolean
+          delivery_days?: string
           delivery_fee?: number
           id?: string
           name?: string
+        }
+        Relationships: []
+      }
+      favorites: {
+        Row: {
+          created_at: string
+          product_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          product_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          product_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          link: string | null
+          read: boolean
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          link?: string | null
+          read?: boolean
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          link?: string | null
+          read?: boolean
+          title?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -172,6 +231,7 @@ export type Database = {
           name: string
           old_price: number | null
           price: number
+          rating: number
           sizes: string[]
           stock: number
         }
@@ -186,6 +246,7 @@ export type Database = {
           name: string
           old_price?: number | null
           price: number
+          rating?: number
           sizes?: string[]
           stock?: number
         }
@@ -200,6 +261,7 @@ export type Database = {
           name?: string
           old_price?: number | null
           price?: number
+          rating?: number
           sizes?: string[]
           stock?: number
         }
@@ -219,18 +281,21 @@ export type Database = {
           id: string
           name: string
           phone: string
+          wallet_balance: number
         }
         Insert: {
           created_at?: string
           id: string
           name?: string
           phone: string
+          wallet_balance?: number
         }
         Update: {
           created_at?: string
           id?: string
           name?: string
           phone?: string
+          wallet_balance?: number
         }
         Relationships: []
       }

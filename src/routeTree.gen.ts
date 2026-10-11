@@ -15,7 +15,10 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as OrdersRouteImport } from './routes/orders'
+import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as OrderIdRouteImport } from './routes/order.$id'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 
@@ -49,9 +52,24 @@ const CheckoutRoute = CheckoutRouteImport.update({
   path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrdersRoute = OrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WalletRoute = WalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OrderIdRoute = OrderIdRouteImport.update({
@@ -72,7 +90,10 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/favorites': typeof FavoritesRoute
+  '/notifications': typeof NotificationsRoute
   '/orders': typeof OrdersRoute
+  '/wallet': typeof WalletRoute
   '/order/$id': typeof OrderIdRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -83,7 +104,10 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/favorites': typeof FavoritesRoute
+  '/notifications': typeof NotificationsRoute
   '/orders': typeof OrdersRoute
+  '/wallet': typeof WalletRoute
   '/order/$id': typeof OrderIdRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -95,7 +119,10 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/favorites': typeof FavoritesRoute
+  '/notifications': typeof NotificationsRoute
   '/orders': typeof OrdersRoute
+  '/wallet': typeof WalletRoute
   '/order/$id': typeof OrderIdRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -108,7 +135,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cart'
     | '/checkout'
+    | '/favorites'
+    | '/notifications'
     | '/orders'
+    | '/wallet'
     | '/order/$id'
     | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -119,7 +149,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cart'
     | '/checkout'
+    | '/favorites'
+    | '/notifications'
     | '/orders'
+    | '/wallet'
     | '/order/$id'
     | '/product/$id'
   id:
@@ -130,7 +163,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cart'
     | '/checkout'
+    | '/favorites'
+    | '/notifications'
     | '/orders'
+    | '/wallet'
     | '/order/$id'
     | '/product/$id'
   fileRoutesById: FileRoutesById
@@ -142,7 +178,10 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRoute
+  FavoritesRoute: typeof FavoritesRoute
+  NotificationsRoute: typeof NotificationsRoute
   OrdersRoute: typeof OrdersRoute
+  WalletRoute: typeof WalletRoute
   OrderIdRoute: typeof OrderIdRoute
   ProductIdRoute: typeof ProductIdRoute
 }
@@ -191,11 +230,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/orders': {
       id: '/orders'
       path: '/orders'
       fullPath: '/orders'
       preLoaderRoute: typeof OrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wallet': {
+      id: '/wallet'
+      path: '/wallet'
+      fullPath: '/wallet'
+      preLoaderRoute: typeof WalletRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/order/$id': {
@@ -222,7 +282,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CartRoute: CartRoute,
   CheckoutRoute: CheckoutRoute,
+  FavoritesRoute: FavoritesRoute,
+  NotificationsRoute: NotificationsRoute,
   OrdersRoute: OrdersRoute,
+  WalletRoute: WalletRoute,
   OrderIdRoute: OrderIdRoute,
   ProductIdRoute: ProductIdRoute,
 }
