@@ -68,7 +68,7 @@ function Index() {
         <section className="mt-4">
           <h2 className="mb-3 text-lg font-extrabold">الأقسام</h2>
           <div className="no-scrollbar flex gap-4 overflow-x-auto pb-2">
-            <CatBubble active={!cat} img={catAll} label="الكل" onClick={() => setCat(null)} />
+            <CatBubble active={!cat} icon={<LayoutGrid className="h-7 w-7 text-primary" />} label="الكل" onClick={() => setCat(null)} />
             {cats.data?.map((c, i) => (
               <CatBubble key={c.id} i={i} active={cat === c.id} label={c.name} img={c.image_url} onClick={() => setCat(c.id)} />
             ))}
