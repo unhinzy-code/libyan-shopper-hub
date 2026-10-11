@@ -12,7 +12,6 @@ import hero from "@/assets/hero-banner.jpg";
 import heroMobile from "@/assets/hero-mobile.jpg";
 import slide2 from "@/assets/hero-slide-2.jpg";
 import slide3 from "@/assets/hero-slide-3.jpg";
-import catAll from "@/assets/cat-all.jpg";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { cn } from "@/lib/utils";
 
@@ -106,7 +105,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function CatBubble({ label, img, active, onClick, i = 0 }: { label: string; img?: string | null; active: boolean; onClick: () => void; i?: number }) {
+function CatBubble({ label, img, icon, active, onClick, i = 0 }: { label: string; img?: string | null; icon?: React.ReactNode; active: boolean; onClick: () => void; i?: number }) {
   return (
     <motion.button
       initial={{ opacity: 0, y: 12 }}
@@ -117,7 +116,7 @@ function CatBubble({ label, img, active, onClick, i = 0 }: { label: string; img?
       className="flex w-20 shrink-0 flex-col items-center gap-1.5"
     >
       <span className={cn("flex h-18 w-18 items-center justify-center overflow-hidden rounded-full border-2 bg-accent p-0.5 transition", active ? "border-primary shadow-brand" : "border-transparent")}>
-        {img ? <img src={img} alt={label} loading="lazy" className="h-full w-full rounded-full object-cover" /> : <Footprints className="h-7 w-7 text-primary" />}
+        {img ? <img src={img} alt={label} loading="lazy" className="h-full w-full rounded-full object-cover" /> : icon ?? <Footprints className="h-7 w-7 text-primary" />}
       </span>
       <span className={cn("line-clamp-1 text-xs font-bold", active ? "text-primary" : "text-foreground")}>{label}</span>
     </motion.button>
