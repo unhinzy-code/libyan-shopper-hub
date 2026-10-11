@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Footprints } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "motion/react";
 import { useState } from "react";
@@ -70,12 +71,12 @@ function Index() {
         </section>
 
         {featured.length > 0 && !cat && !q && (
-          <Section title="الأكثر طلباً 💗">
+          <Section title="الأكثر طلباً">
             {featured.slice(0, 4).map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
           </Section>
         )}
         {deals.length > 0 && !cat && !q && (
-          <Section title="تخفيضات 🔥">
+          <Section title="تخفيضات">
             {deals.slice(0, 4).map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
           </Section>
         )}
@@ -85,7 +86,7 @@ function Index() {
             ? Array.from({ length: 4 }).map((_, i) => <div key={i} className="aspect-[3/4] animate-pulse rounded-3xl bg-muted" />)
             : list.map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
         </Section>
-        {!products.isLoading && list.length === 0 && <EmptyState emoji="👠" title="لا توجد منتجات" text="جرب قسم آخر أو بحث مختلف" />}
+        {!products.isLoading && list.length === 0 && <EmptyState emoji="shoe" title="لا توجد منتجات" text="جرب قسم آخر أو بحث مختلف" />}
       </div>
     </StoreLayout>
   );
@@ -111,7 +112,7 @@ function CatBubble({ label, img, active, onClick, i = 0 }: { label: string; img?
       className="flex w-20 shrink-0 flex-col items-center gap-1.5"
     >
       <span className={cn("flex h-18 w-18 items-center justify-center overflow-hidden rounded-full border-2 bg-accent p-0.5 transition", active ? "border-primary shadow-brand" : "border-transparent")}>
-        {img ? <img src={img} alt={label} loading="lazy" className="h-full w-full rounded-full object-cover" /> : <span className="text-2xl">👟</span>}
+        {img ? <img src={img} alt={label} loading="lazy" className="h-full w-full rounded-full object-cover" /> : <Footprints className="h-7 w-7 text-primary" />}
       </span>
       <span className={cn("line-clamp-1 text-xs font-bold", active ? "text-primary" : "text-foreground")}>{label}</span>
     </motion.button>

@@ -46,9 +46,9 @@ function OrderPage() {
       (await supabase.from("orders").select("*, order_items(*)").eq("id", id).maybeSingle()).data,
   });
 
-  if (!session) return <StoreLayout><EmptyState emoji="🔐" title="سجّل دخول لرؤية الطلب" action={{ label: "دخول", to: "/auth" }} /></StoreLayout>;
+  if (!session) return <StoreLayout><EmptyState emoji="lock" title="سجّل دخول لرؤية الطلب" action={{ label: "دخول", to: "/auth" }} /></StoreLayout>;
   if (isLoading) return <StoreLayout><p>جاري التحميل...</p></StoreLayout>;
-  if (!o) return <StoreLayout><EmptyState emoji="🔎" title="الطلب غير موجود" action={{ label: "طلباتي", to: "/orders" }} /></StoreLayout>;
+  if (!o) return <StoreLayout><EmptyState emoji="search" title="الطلب غير موجود" action={{ label: "طلباتي", to: "/orders" }} /></StoreLayout>;
 
   const onFile = async (f?: File) => {
     if (!f) return;
@@ -57,7 +57,7 @@ function OrderPage() {
       const url = await uploadImage("receipts", session.user.id, f);
       const { error } = await supabase.rpc("attach_receipt", { _order_id: o.id, _url: url });
       if (error) throw error;
-      toast.success("تم إرسال الإيصال ✅");
+      toast.success("تم إرسال الإيصال ");
       qc.invalidateQueries({ queryKey: ["order", id] });
     } catch (e) {
       toast.error((e as Error).message);
@@ -78,17 +78,17 @@ function OrderPage() {
 
         {o.payment_method === "transfer" && (
           <div className="space-y-3 rounded-2xl border-2 border-secondary bg-card p-4">
-            <h2 className="font-extrabold">💳 الدفع بالتحويل</h2>
+            <h2 className="font-extrabold">الدفع بالتحويل</h2>
             <p>حوّل مبلغ <b>{money(o.total)}</b> إلى:</p>
             <BankList selected={o.bank} />
             <p className="rounded-xl bg-secondary/30 p-3 font-bold">
-              ⚠️ تأكد من إرسال صورة الإيصال مع رقم الطلب <b>#{o.order_number}</b> لتأكيد أنك دفعت.
+              تأكد من إرسال صورة الإيصال مع رقم الطلب <b>#{o.order_number}</b> لتأكيد أنك دفعت.
             </p>
             {o.receipt_url ? (
-              <p className="font-bold text-success">✅ تم استلام الإيصال، سيتم المراجعة قريباً</p>
+              <p className="font-bold text-success">تم استلام الإيصال، سيتم المراجعة قريباً</p>
             ) : (
               <label className="block cursor-pointer rounded-xl border-2 border-dashed border-primary p-4 text-center font-bold text-primary">
-                {uploading ? "جاري الرفع..." : "📎 ارفع صورة الإيصال"}
+                {uploading ? "جاري الرفع..." : "ارفع صورة الإيصال"}
                 <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
               </label>
             )}
@@ -170,7 +170,7 @@ function Success({ n, onClose }: { n: number; onClose: () => void }) {
           <motion.path d="M5 12l5 5 9-10" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.35, duration: 0.5 }} />
         </svg>
       </motion.div>
-      <motion.h2 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-6 text-2xl font-extrabold">تم إرسال طلبك 🎉</motion.h2>
+      <motion.h2 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-6 text-2xl font-extrabold">تم إرسال طلبك </motion.h2>
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-2 text-muted-foreground">رقم الطلب #{n}</motion.p>
     </motion.div>
   );

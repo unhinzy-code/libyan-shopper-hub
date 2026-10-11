@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Footprints } from "lucide-react";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { StoreLayout, BrandButton } from "@/components/StoreLayout";
@@ -30,7 +31,7 @@ function CartPage() {
         سلة التسوق <span className="text-base font-normal text-muted-foreground">({cart.count} منتجات)</span>
       </h1>
       {cart.items.length === 0 ? (
-        <EmptyState emoji="🛍️" title="سلتك فاضية" text="أضف أحذية تعجبك وارجع هنا" action={{ label: "تسوق الآن", to: "/" }} />
+        <EmptyState emoji="bag" title="سلتك فاضية" text="أضف أحذية تعجبك وارجع هنا" action={{ label: "تسوق الآن", to: "/" }} />
       ) : (
         <>
           <div className="space-y-3">
@@ -38,7 +39,7 @@ function CartPage() {
             {cart.items.map((i) => (
               <motion.div layout key={i.product_id + i.size} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -80, height: 0 }} className="flex gap-3 overflow-hidden rounded-3xl bg-card p-3 shadow-soft">
                 <div className="h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-muted">
-                  {i.image_url ? <img src={i.image_url} alt={i.name} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-3xl">👟</div>}
+                  {i.image_url ? <img src={i.image_url} alt={i.name} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center"><Footprints className="h-8 w-8 text-primary/40" /></div>}
                 </div>
                 <div className="flex flex-1 flex-col justify-between">
                   <div>

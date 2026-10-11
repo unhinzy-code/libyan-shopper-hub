@@ -24,13 +24,13 @@ export const Route = createFileRoute("/admin")({
 });
 
 const TABS = [
-  ["dash", "📊 الإحصائيات"],
-  ["orders", "📦 الطلبات"],
-  ["products", "👟 المنتجات"],
-  ["cats", "🗂️ الأقسام"],
-  ["cities", "📍 المدن والتوصيل"],
-  ["customers", "👥 الزبائن"],
-  ["notifs", "🔔 الإشعارات"],
+  ["dash", "الإحصائيات"],
+  ["orders", "الطلبات"],
+  ["products", "المنتجات"],
+  ["cats", "الأقسام"],
+  ["cities", "المدن والتوصيل"],
+  ["customers", "الزبائن"],
+  ["notifs", "الإشعارات"],
 ] as const;
 
 function Admin() {

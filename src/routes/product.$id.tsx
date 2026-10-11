@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Footprints } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
@@ -51,7 +52,7 @@ function ProductPage() {
     <StoreLayout>
       <div className="grid gap-6 md:grid-cols-2">
         <div className="aspect-square overflow-hidden rounded-3xl bg-muted">
-          {p.image_url ? <img src={p.image_url} alt={p.name} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-7xl">👟</div>}
+          {p.image_url ? <img src={p.image_url} alt={p.name} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center"><Footprints className="h-20 w-20 text-primary/40" /></div>}
         </div>
         <div className="space-y-5">
           <h1 className="text-3xl font-extrabold">{p.name}</h1>

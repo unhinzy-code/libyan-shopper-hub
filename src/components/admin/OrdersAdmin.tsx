@@ -62,15 +62,15 @@ export function OrdersAdmin() {
             <div className="text-left">
               <p className="font-bold">{money(o.total)}</p>
               <span className="rounded-full bg-accent px-2 text-xs font-bold text-accent-foreground">{STATUS_LABELS[o.status]}</span>
-              {o.payment_method === "transfer" && <p className="text-xs">{o.receipt_url ? "🧾 إيصال مرفق" : "⏳ بدون إيصال"}</p>}
+              {o.payment_method === "transfer" && <p className="text-xs">{o.receipt_url ? "إيصال مرفق" : "بدون إيصال"}</p>}
             </div>
           </button>
           {open === o.id && (
             <div className="space-y-3 border-t p-4 text-sm">
-              <p>📞 <a dir="ltr" href={`tel:${o.phone}`} className="font-bold text-primary">{o.phone}</a> · <a href={`https://wa.me/218${o.phone.slice(1)}`} target="_blank" rel="noreferrer" className="text-success underline">واتساب</a></p>
-              <p>📍 {o.city}{o.address_details ? ` — ${o.address_details}` : ""}</p>
-              {o.bank && <p>🏦 {o.bank}</p>}
-              {o.notes && <p>📝 {o.notes}</p>}
+              <p><a dir="ltr" href={`tel:${o.phone}`} className="font-bold text-primary">{o.phone}</a> · <a href={`https://wa.me/218${o.phone.slice(1)}`} target="_blank" rel="noreferrer" className="text-success underline">واتساب</a></p>
+              <p>{o.city}{o.address_details ? ` — ${o.address_details}` : ""}</p>
+              {o.bank && <p>{o.bank}</p>}
+              {o.notes && <p>{o.notes}</p>}
               <div className="divide-y rounded-xl bg-muted p-2">
                 {o.order_items.map((i) => (
                   <div key={i.id} className="flex justify-between py-1"><span>{i.name}{i.size ? ` (${i.size})` : ""} × {i.qty}</span><span>{money(Number(i.price) * i.qty)}</span></div>
