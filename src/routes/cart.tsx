@@ -1,6 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { StoreLayout, BrandButton } from "@/components/StoreLayout";
+import { EmptyState } from "@/components/ui-kit";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import { money } from "@/lib/store";
@@ -28,15 +30,13 @@ function CartPage() {
         سلة التسوق <span className="text-base font-normal text-muted-foreground">({cart.count} منتجات)</span>
       </h1>
       {cart.items.length === 0 ? (
-        <div className="rounded-2xl bg-muted p-10 text-center">
-          <p className="mb-4 text-muted-foreground">سلتك فاضية</p>
-          <Link to="/" className="font-bold text-primary underline">تسوق الآن</Link>
-        </div>
+        <EmptyState emoji="🛍️" title="سلتك فاضية" text="أضف أحذية تعجبك وارجع هنا" action={{ label: "تسوق الآن", to: "/" }} />
       ) : (
         <>
-          <div className="divide-y rounded-2xl border bg-card">
+          <div className="space-y-3">
+            <AnimatePresence initial={false}>
             {cart.items.map((i) => (
-              <div key={i.product_id + i.size} className="flex gap-3 p-3">
+              <motion.div layout key={i.product_id + i.size} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -80, height: 0 }} className="flex gap-3 overflow-hidden rounded-3xl bg-card p-3 shadow-soft">
                 <div className="h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-muted">
                   {i.image_url ? <img src={i.image_url} alt={i.name} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-3xl">👟</div>}
                 </div>
@@ -56,8 +56,9 @@ function CartPage() {
                     )}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
+            </AnimatePresence>
           </div>
           <div className="mt-5 flex items-center justify-between rounded-2xl bg-accent p-4">
             <span className="text-2xl font-extrabold">{money(cart.subtotal)}</span>
