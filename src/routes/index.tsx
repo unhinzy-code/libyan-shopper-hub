@@ -9,7 +9,7 @@ import { ProductCard, type Product } from "@/components/ProductCard";
 import { EmptyState } from "@/components/ui-kit";
 import { buzz } from "@/lib/haptics";
 import hero from "@/assets/hero-banner.jpg";
-import { HeroSlider } from "@/components/HeroSlider";
+import heroMobile from "@/assets/hero-mobile.jpg";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -49,7 +49,7 @@ function Index() {
   return (
     <StoreLayout overHero>
       <motion.section initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="relative w-full overflow-hidden">
-        <div className="md:hidden"><HeroSlider /></div>
+        <img src={heroMobile} alt="أحذية کیوتی شوز" width={864} height={1152} className="block aspect-[3/4] w-full object-cover object-center md:hidden" />
         <picture className="hidden md:block">
           <img src={hero} alt="أحذية کیوتی شوز" width={1600} height={912} className="block w-full object-cover object-center md:h-[78vh]" />
         </picture>
