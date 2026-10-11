@@ -8,6 +8,13 @@
       "when": 1791679349396,
       "tag": "0000_add_staff_role",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791679534123,
+      "tag": "0001_signup_trigger",
+      "breakpoints": true
     }
   ]
 }

@@ -9,7 +9,7 @@ import { ProductCard, type Product } from "@/components/ProductCard";
 import { EmptyState } from "@/components/ui-kit";
 import { buzz } from "@/lib/haptics";
 import hero from "@/assets/hero-banner.jpg";
-import heroMobile from "@/assets/hero-mobile.jpg";
+import { HeroSlider } from "@/components/HeroSlider";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -49,11 +49,11 @@ function Index() {
   return (
     <StoreLayout overHero>
       <motion.section initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="relative w-full overflow-hidden">
-        <picture>
-          <source media="(max-width: 767px)" srcSet={heroMobile} />
-          <img src={hero} alt="أحذية کیوتی شوز" width={1600} height={912} className="block h-[78svh] min-h-96 w-full object-cover object-center md:h-[78vh]" />
+        <div className="md:hidden"><HeroSlider /></div>
+        <picture className="hidden md:block">
+          <img src={hero} alt="أحذية کیوتی شوز" width={1600} height={912} className="block w-full object-cover object-center md:h-[78vh]" />
         </picture>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-24 md:block bg-gradient-to-t from-background to-transparent" />
       </motion.section>
 
       <div className="mx-auto max-w-6xl px-4">
