@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "motion/react";
-import { Bell, ChevronLeft, Globe, Heart, LogOut, MapPin, Shield, Star, Truck, Wallet, LogIn } from "lucide-react";
+import { Bell, ChevronLeft, Globe, Heart, LogOut, MapPin, Package, UserPlus, Sparkles, Shield, Star, Truck, Wallet, LogIn } from "lucide-react";
 import { FaWhatsapp, FaInstagram, FaFacebook, FaTiktok } from "react-icons/fa";
 import { useState, type ReactNode } from "react";
 import { toast } from "sonner";
@@ -10,7 +10,7 @@ import { StoreLayout } from "@/components/StoreLayout";
 import { useAuth } from "@/lib/auth";
 import { buzz } from "@/lib/haptics";
 import { money, SOCIAL } from "@/lib/store";
-import sahara from "@/assets/sahara.png.asset.json";
+import sahara from "@/assets/sahara-banner.png.asset.json";
 
 export const Route = createFileRoute("/account")({
   head: () => ({
@@ -56,12 +56,26 @@ function Account() {
               <p dir="ltr" className="text-right opacity-90">{profile?.phone}</p>
             </div>
           ) : (
-            <div className="relative space-y-3">
-              <h1 className="text-2xl font-extrabold">مرحباً بك في کیوتی شوز </h1>
-              <p className="opacity-90">سجّل دخول لتتبع طلباتك وحفظ المفضلة</p>
-              <Link to="/auth" search={{}} onClick={() => buzz()} className="inline-flex items-center gap-2 rounded-full bg-card px-5 py-2 font-bold text-primary">
-                <LogIn className="h-4 w-4" /> دخول / حساب جديد
-              </Link>
+            <div className="relative space-y-4 text-center">
+              <motion.div initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 200 }} className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-card/25 backdrop-blur">
+                <Sparkles className="h-8 w-8" />
+              </motion.div>
+              <div>
+                <h1 className="text-2xl font-extrabold">مرحباً بك في کیوتی شوز</h1>
+                <p className="mt-1 text-sm opacity-90">سجّلي دخولك لتتبع طلباتك، حفظ المفضلة واستخدام المحفظة</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <motion.div whileTap={{ scale: 0.94 }} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}>
+                  <Link to="/auth" search={{}} onClick={() => buzz()} className="flex items-center justify-center gap-2 rounded-2xl bg-card py-3 font-bold text-primary shadow-soft">
+                    <LogIn className="h-4 w-4" /> تسجيل الدخول
+                  </Link>
+                </motion.div>
+                <motion.div whileTap={{ scale: 0.94 }} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }}>
+                  <Link to="/auth" search={{}} onClick={() => buzz()} className="flex items-center justify-center gap-2 rounded-2xl border-2 border-card/70 py-3 font-bold">
+                    <UserPlus className="h-4 w-4" /> حساب جديد
+                  </Link>
+                </motion.div>
+              </div>
             </div>
           )}
         </motion.div>
@@ -73,6 +87,7 @@ function Account() {
         </div>
 
         <Group title="الإعدادات">
+          <Row to="/orders" icon={<Package />} label="طلباتي" />
           <Row to="/notifications" icon={<Bell />} label="الإشعارات" />
           <Row to="/checkout" icon={<MapPin />} label="عنوان التوصيل" hint="تختاره عند الطلب" />
           <button onClick={() => { buzz(); setLang(lang === "ar" ? "en" : "ar"); toast("English coming soon — العربية مفعلة"); }} className="flex w-full items-center gap-3 px-4 py-3.5 text-right">
@@ -99,10 +114,10 @@ function Account() {
           </button>
         )}
 
-        <a href="https://sts.com.ly" target="_blank" rel="noreferrer" className="flex flex-col items-center gap-1 py-4 text-xs text-muted-foreground">
-          <span>صُنع بواسطة</span>
-          <img src={sahara.url} alt="Sahara" className="h-10 w-auto" />
-        </a>
+        <motion.a initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} href="https://sts.com.ly" target="_blank" rel="noreferrer" className="-mx-4 block pt-2">
+          <span className="mb-2 block text-center text-xs text-muted-foreground">صُنع بواسطة Sahara</span>
+          <img src={sahara.url} alt="Sahara Tech Solutions" className="block w-full h-auto" />
+        </motion.a>
       </div>
     </StoreLayout>
   );

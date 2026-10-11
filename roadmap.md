@@ -16,4 +16,4 @@
 - [ ] Use wallet credit at checkout
 - [ ] Firebase push notifications — needs GOOGLE_API_KEY + Firebase connection
 - [ ] ImgBB image uploads
-- [ ] Real Instagram/Facebook/TikTok links — waiting on user
+- [x] Instagram/WhatsApp links (TikTok + Facebook name pending from user)

@@ -42,8 +42,8 @@ export const money = (n: number | string | null | undefined) =>
 
 /** Support links — replace with the store's real accounts. */
 export const SOCIAL = {
-  whatsapp: "https://wa.me/218924554163",
-  instagram: "https://instagram.com/",
-  facebook: "https://facebook.com/",
+  whatsapp: "https://wa.me/218919720022",
+  instagram: "https://instagram.com/cutie_shoes22",
+  facebook: "https://facebook.com/search/top?q=cutie_shoes22",
   tiktok: "https://tiktok.com/",
 };
