@@ -68,19 +68,16 @@ function AuthPage() {
       {Array.from({ length: 40 }).map((_, i) => (
         <motion.span
           key={"s" + i}
-          className="absolute rounded-full bg-card"
-          style={{ width: (i % 3) + 2, height: (i % 3) + 2, top: `${(i * 37) % 100}%`, left: `${(i * 53) % 100}%` }}
-          animate={{ opacity: [0.2, 1, 0.2], y: [0, -30, 0], scale: [0.6, 1.2, 0.6] }}
-          transition={{ duration: 3 + (i % 5), repeat: Infinity, delay: (i % 7) * 0.4, ease: "easeInOut" }}
-        />
-      ))}
-      {[0, 1, 2].map((i) => (
-        <motion.span
-          key={i}
-          className="absolute rounded-full bg-card/15"
-          style={{ width: 120 + i * 80, height: 120 + i * 80, top: `${10 + i * 12}%`, left: `${i * 30 - 10}%` }}
-          animate={{ y: [0, -20, 0], x: [0, 15, 0] }}
-          transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bg-card"
+          style={{
+            width: 6 + (i % 3) * 5,
+            height: 6 + (i % 3) * 5,
+            top: `${(i * 37) % 100}%`,
+            left: `${(i * 53) % 100}%`,
+            clipPath: "polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%)",
+          }}
+          animate={{ opacity: [0.25, 1, 0.25], y: [0, -45, 0], rotate: [0, 180, 0], scale: [0.7, 1.1, 0.7] }}
+          transition={{ duration: 4 + (i % 5), repeat: Infinity, delay: (i % 7) * 0.4, ease: "easeInOut" }}
         />
       ))}
       <div className="relative flex flex-1 flex-col items-center justify-center p-8 text-center">
