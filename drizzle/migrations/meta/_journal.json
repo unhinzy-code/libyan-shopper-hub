@@ -1,41 +1,5 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1791679349396,
-      "tag": "0000_add_staff_role",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1791679534123,
-      "tag": "0001_signup_trigger",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1791680224165,
-      "tag": "0002_grant_table_access",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1791680802941,
-      "tag": "0003_category_name_en",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1791681683946,
-      "tag": "0004_colors_addresses",
-      "breakpoints": true
-    }
-  ]
+  "entries": []
 }
