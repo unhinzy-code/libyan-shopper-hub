@@ -8,17 +8,23 @@ import { uploadImage } from "@/lib/upload";
 export function CategoriesAdmin() {
   const qc = useQueryClient();
   const [name, setName] = useState("");
+  const [nameEn, setNameEn] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [busy, setBusy] = useState(false);
   const { data } = useQuery({ queryKey: ["categories"], queryFn: async () => (await supabase.from("categories").select("*").order("sort_order")).data ?? [] });
   const refresh = () => qc.invalidateQueries({ queryKey: ["categories"] });
 
   const add = async () => {
-    const n = (name.trim() || prompt("اسم القسم الجديد") || "").trim();
-    if (!n) return toast.error("اكتب اسم القسم أولاً");
-    const { error } = await supabase.from("categories").insert({ name: n, sort_order: (data?.length ?? 0) + 1 });
-    if (error) return toast.error(error.message);
-    toast.success("تمت إضافة القسم");
-    setName("");
-    refresh();
+    if (!name.trim()) return toast.error("اكتب اسم القسم بالعربي");
+    setBusy(true);
+    try {
+      const image_url = file ? await uploadImage("products", "categories", file) : null;
+      const { error } = await supabase.from("categories").insert({ name: name.trim(), name_en: nameEn.trim(), image_url, sort_order: (data?.length ?? 0) + 1 });
+      if (error) throw error;
+      toast.success("تمت إضافة القسم");
+      setName(""); setNameEn(""); setFile(null);
+      refresh();
+    } catch (e) { toast.error((e as Error).message); } finally { setBusy(false); }
   };
   const rename = async (id: string, old: string) => {
     const n = prompt("الاسم الجديد", old);
@@ -43,9 +49,18 @@ export function CategoriesAdmin() {
 
   return (
     <div className="space-y-3">
-      <div className="flex gap-2">
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="اسم القسم الجديد" className="flex-1 rounded-xl border-2 px-3 py-2" />
-        <button onClick={add} className="rounded-xl bg-primary px-4 font-bold text-primary-foreground">+ إضافة</button>
+      <div className="space-y-3 rounded-2xl border bg-card p-4">
+        <p className="font-extrabold">قسم جديد</p>
+        <label className="flex cursor-pointer items-center gap-3">
+          <span className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-primary bg-accent">
+            {file ? <img src={URL.createObjectURL(file)} alt="" className="h-full w-full object-cover" /> : <Camera className="h-7 w-7 text-primary" />}
+          </span>
+          <span className="text-sm font-bold text-muted-foreground">{file ? "تغيير الصورة" : "اختر صورة القسم"}</span>
+          <input type="file" accept="image/*" className="hidden" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+        </label>
+        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="الاسم بالعربي" className="w-full rounded-xl border-2 px-3 py-2" />
+        <input value={nameEn} onChange={(e) => setNameEn(e.target.value)} dir="ltr" placeholder="English name" className="w-full rounded-xl border-2 px-3 py-2" />
+        <button onClick={add} disabled={busy} className="w-full rounded-xl bg-primary py-3 font-bold text-primary-foreground transition active:scale-95 disabled:opacity-60">{busy ? "جاري الحفظ..." : "إضافة القسم"}</button>
       </div>
       {data?.map((c, i) => (
         <div key={c.id} className="flex items-center justify-between rounded-2xl border bg-card p-3">

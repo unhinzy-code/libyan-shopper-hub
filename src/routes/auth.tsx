@@ -1,4 +1,3 @@
-import authHero from "@/assets/hero-mobile.jpg";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
@@ -66,8 +65,15 @@ function AuthPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-brand">
-      <img src={authHero} alt="" className="absolute inset-x-0 top-0 h-[60vh] w-full object-cover" />
-      <div className="absolute inset-x-0 top-0 h-[60vh] bg-gradient-to-b from-transparent via-brand/30 to-brand" />
+      {Array.from({ length: 40 }).map((_, i) => (
+        <motion.span
+          key={"s" + i}
+          className="absolute rounded-full bg-card"
+          style={{ width: (i % 3) + 2, height: (i % 3) + 2, top: `${(i * 37) % 100}%`, left: `${(i * 53) % 100}%` }}
+          animate={{ opacity: [0.2, 1, 0.2], y: [0, -30, 0], scale: [0.6, 1.2, 0.6] }}
+          transition={{ duration: 3 + (i % 5), repeat: Infinity, delay: (i % 7) * 0.4, ease: "easeInOut" }}
+        />
+      ))}
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}

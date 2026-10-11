@@ -12,6 +12,7 @@ import hero from "@/assets/hero-banner.jpg";
 import heroMobile from "@/assets/hero-mobile.jpg";
 import slide2 from "@/assets/hero-slide-2.jpg";
 import slide3 from "@/assets/hero-slide-3.jpg";
+import catAll from "@/assets/cat-all.jpg";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { cn } from "@/lib/utils";
 
@@ -67,7 +68,7 @@ function Index() {
         <section className="mt-4">
           <h2 className="mb-3 text-lg font-extrabold">الأقسام</h2>
           <div className="no-scrollbar flex gap-4 overflow-x-auto pb-2">
-            <CatBubble active={!cat} label="الكل" onClick={() => setCat(null)} />
+            <CatBubble active={!cat} img={catAll} label="الكل" onClick={() => setCat(null)} />
             {cats.data?.map((c, i) => (
               <CatBubble key={c.id} i={i} active={cat === c.id} label={c.name} img={c.image_url} onClick={() => setCat(c.id)} />
             ))}
