@@ -73,7 +73,7 @@ export function OrdersAdmin() {
               {o.notes && <p>{o.notes}</p>}
               <div className="divide-y rounded-xl bg-muted p-2">
                 {o.order_items.map((i) => (
-                  <div key={i.id} className="flex justify-between py-1"><span>{i.name}{i.size ? ` (${i.size})` : ""} × {i.qty}</span><span>{money(Number(i.price) * i.qty)}</span></div>
+                  <div key={i.id} className="flex justify-between py-1"><span className="flex items-center gap-2">{i.image_url && <img src={i.image_url} alt="" className="h-10 w-10 rounded-lg object-cover" />}<span><b>{i.name}</b> × {i.qty}{i.size && <span className="block text-xs text-muted-foreground">المقاس / اللون: <b className="text-foreground">{i.size}</b></span>}</span></span><span>{money(Number(i.price) * i.qty)}</span></div>
                 ))}
                 <div className="flex justify-between py-1"><span>توصيل</span><span>{money(o.delivery_fee)}</span></div>
               </div>
@@ -100,7 +100,7 @@ function NoteBox({ initial, onSave }: { initial: string; onSave: (v: string) => 
   const [v, setV] = useState(initial);
   return (
     <div className="flex gap-2">
-      <input value={v} onChange={(e) => setV(e.target.value)} placeholder="ملاحظة داخلية للإدارة" className="flex-1 rounded-xl border-2 px-3 py-2" />
+      <input value={v} onChange={(e) => setV(e.target.value)} placeholder="ملاحظة تظهر للزبون في تتبع الطلب" className="flex-1 rounded-xl border-2 px-3 py-2" />
       <button onClick={() => onSave(v)} className="rounded-xl bg-primary px-4 font-bold text-primary-foreground">حفظ</button>
     </div>
   );

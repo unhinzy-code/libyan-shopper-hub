@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { StoreLayout } from "@/components/StoreLayout";
 import { useAuth } from "@/lib/auth";
+import { useLang } from "@/lib/i18n";
 import { buzz } from "@/lib/haptics";
 import { money, SOCIAL } from "@/lib/store";
 import sahara from "@/assets/sahara-banner.png.asset.json";
@@ -28,7 +29,7 @@ function Account() {
   const { profile, session, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
   const qc = useQueryClient();
-  const [lang, setLang] = useState("ar");
+  const { lang, tr, setLang } = useLang();
   const wallet = useQuery({
     queryKey: ["wallet", session?.user.id],
     enabled: !!session,
@@ -40,7 +41,7 @@ function Account() {
     await qc.cancelQueries();
     qc.clear();
     await signOut();
-    toast.success("تم تسجيل الخروج");
+    toast.success(tr("تم تسجيل الخروج","Logged out"));
     navigate({ to: "/account", replace: true });
   };
 
@@ -50,8 +51,8 @@ function Account() {
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="relative flex flex-col justify-end overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-primary shadow-brand">
           {session ? (
             <div className="relative p-6 text-primary-foreground">
-              <p className="text-sm font-bold opacity-90">أهلاً بك </p>
-              <h1 className="text-2xl font-extrabold drop-shadow-sm">{profile?.name || "عميلتنا"}</h1>
+              <p className="text-sm font-bold opacity-90">{tr("أهلاً بك","Welcome back")}</p>
+              <h1 className="text-2xl font-extrabold drop-shadow-sm">{profile?.name || tr("عميلتنا","Customer")}</h1>
               <p dir="ltr" className="text-right font-bold opacity-90">{profile?.phone}</p>
             </div>
           ) : (
@@ -60,55 +61,55 @@ function Account() {
                 <UserRound className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-xl font-extrabold drop-shadow-sm">أهلاً بك في کیوتی شوز</h1>
-                <p className="text-sm font-bold opacity-95 drop-shadow-sm">سجّلي دخولك لمتابعة طلباتك ومفضلتك</p>
+                <h1 className="text-xl font-extrabold drop-shadow-sm">{tr("أهلاً بك في کیوتی شوز","Welcome to Cutie Shoes")}</h1>
+                <p className="text-sm font-bold opacity-95 drop-shadow-sm">{tr("سجّلي دخولك لمتابعة طلباتك ومفضلتك","Sign in to track orders and favorites")}</p>
               </div>
               <Link to="/auth" search={{}} onClick={() => buzz()} className="flex w-full items-center justify-center gap-2 rounded-2xl bg-card py-3.5 font-bold text-primary shadow-soft transition active:scale-95">
-                <LogIn className="h-5 w-5" /> تسجيل الدخول
+                <LogIn className="h-5 w-5" /> {tr("تسجيل الدخول","Log in")}
               </Link>
               <Link to="/auth" search={{}} onClick={() => buzz()} className="text-sm font-bold underline-offset-4 drop-shadow-sm hover:underline">
-                ليس لديك حساب؟ إنشاء حساب جديد
+                {tr("ليس لديك حساب؟ إنشاء حساب جديد","No account? Create one")}
               </Link>
             </div>
           )}
         </motion.div>
 
         <div className="grid grid-cols-3 gap-3">
-          <Quick to="/orders" icon={<Truck />} label="تتبع" />
-          <Quick to="/favorites" icon={<Heart />} label="المفضلة" />
-          <Quick to="/wallet" icon={<Wallet />} label={session ? money(wallet.data) : "المحفظة"} />
+          <Quick to="/orders" icon={<Truck />} label={tr("تتبع","Track")} />
+          <Quick to="/favorites" icon={<Heart />} label={tr("المفضلة","Favorites")} />
+          <Quick to="/wallet" icon={<Wallet />} label={session ? money(wallet.data) : tr("المحفظة","Wallet")} />
         </div>
 
-        <Group title="الإعدادات">
-          <Row to="/orders" icon={<Package />} label="طلباتي" />
-          <Row to="/notifications" icon={<Bell />} label="الإشعارات" />
-          <Row to="/checkout" icon={<MapPin />} label="عنوان التوصيل" hint="تختاره عند الطلب" />
-          <button onClick={() => { buzz(); setLang(lang === "ar" ? "en" : "ar"); toast("English coming soon — العربية مفعلة"); }} className="flex w-full items-center gap-3 px-4 py-3.5 text-right">
+        <Group title={tr("الإعدادات","Settings")}>
+          <Row to="/orders" icon={<Package />} label={tr("طلباتي","My orders")} />
+          <Row to="/notifications" icon={<Bell />} label={tr("الإشعارات","Notifications")} />
+          <Row to="/addresses" icon={<MapPin />} label={tr("عناوين التوصيل","Delivery addresses")} hint={tr("للطلب السريع","For fast checkout")} />
+          <button onClick={() => { buzz(); setLang(lang === "ar" ? "en" : "ar"); }} className="flex w-full items-center gap-3 px-4 py-3.5 text-start">
             <Ico><Globe /></Ico>
-            <span className="flex-1 font-bold">اللغة</span>
-            <span className="text-sm text-muted-foreground">العربية</span>
+            <span className="flex-1 font-bold">{tr("اللغة","Language")}</span>
+            <span className="text-sm text-muted-foreground">{lang === "ar" ? "English" : "العربية"}</span>
           </button>
-          {isAdmin && <Row to="/admin" icon={<Shield />} label="لوحة الإدارة" />}
+          {isAdmin && <Row to="/admin" icon={<Shield />} label={tr("لوحة الإدارة","Admin panel")} />}
         </Group>
 
-        <Group title="الدعم والتواصل">
+        <Group title={tr("الدعم والتواصل","Support")}>
           <div className="grid grid-cols-4 gap-2 p-4">
-            <Social href={SOCIAL.whatsapp} label="واتساب" icon={<FaWhatsapp className="h-6 w-6" style={{ color: "#25D366" }} />} />
-            <Social href={SOCIAL.instagram} label="انستغرام" icon={<FaInstagram className="h-6 w-6" style={{ color: "#E4405F" }} />} />
-            <Social href={SOCIAL.facebook} label="فيسبوك" icon={<FaFacebook className="h-6 w-6" style={{ color: "#1877F2" }} />} />
-            <Social href={SOCIAL.tiktok} label="تيك توك" icon={<FaTiktok className="h-6 w-6" />} />
+            <Social href={SOCIAL.whatsapp} label={tr("واتساب","WhatsApp")} icon={<FaWhatsapp className="h-6 w-6" style={{ color: "#25D366" }} />} />
+            <Social href={SOCIAL.instagram} label={tr("انستغرام","Instagram")} icon={<FaInstagram className="h-6 w-6" style={{ color: "#E4405F" }} />} />
+            <Social href={SOCIAL.facebook} label={tr("فيسبوك","Facebook")} icon={<FaFacebook className="h-6 w-6" style={{ color: "#1877F2" }} />} />
+            <Social href={SOCIAL.tiktok} label={tr("تيك توك","TikTok")} icon={<FaTiktok className="h-6 w-6" />} />
           </div>
           <RateApp />
         </Group>
 
         {session && (
           <button onClick={logout} className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-destructive/40 py-3.5 font-bold text-destructive">
-            <LogOut className="h-5 w-5" /> تسجيل خروج
+            <LogOut className="h-5 w-5" /> {tr("تسجيل خروج","Log out")}
           </button>
         )}
 
         <motion.a initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} href="https://sts.com.ly" target="_blank" rel="noreferrer" className="-mx-4 block pt-2">
-          <span className="mb-2 block text-center text-xs text-muted-foreground">صُنع بواسطة Sahara</span>
+          <span className="mb-2 block text-center text-xs text-muted-foreground">{tr("صُنع بواسطة Sahara","Made by Sahara")}</span>
           <img src={sahara.url} alt="Sahara Tech Solutions" className="block w-full h-auto" />
         </motion.a>
       </div>

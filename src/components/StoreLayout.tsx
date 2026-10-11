@@ -1,3 +1,4 @@
+import { useLang } from "@/lib/i18n";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "motion/react";
@@ -59,6 +60,7 @@ export function StoreLayout({ children, overHero = false }: { children: ReactNod
   const unread = useUnread();
   const path = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
+  const { tr } = useLang();
   const [scrollT, setScrollT] = useState(overHero ? 0 : 1);
   const [q, setQ] = useState("");
   const [animate] = useState(() => hasNavigated);
@@ -79,10 +81,10 @@ export function StoreLayout({ children, overHero = false }: { children: ReactNod
   );
 
   const nav = [
-    { to: "/", label: "الرئيسية", icon: Home },
-    { to: "/categories", label: "الأقسام", icon: LayoutGrid },
-    { to: "/cart", label: "السلة", icon: ShoppingBag, badge: count },
-    { to: "/account", label: "حسابي", icon: User },
+    { to: "/", label: tr("الرئيسية","Home"), icon: Home },
+    { to: "/categories", label: tr("الأقسام","Categories"), icon: LayoutGrid },
+    { to: "/cart", label: tr("السلة","Cart"), icon: ShoppingBag, badge: count },
+    { to: "/account", label: tr("حسابي","Account"), icon: User },
   ] as const;
 
   const submitSearch = (e: React.FormEvent) => {
@@ -111,7 +113,7 @@ export function StoreLayout({ children, overHero = false }: { children: ReactNod
                 {n.label}
               </Link>
             ))}
-            {isAdmin && <Link to="/admin" className="text-sm font-bold text-primary">الإدارة</Link>}
+            {isAdmin && <Link to="/admin" className="text-sm font-bold text-primary">{tr("الإدارة","Admin")}</Link>}
           </nav>
           <form onSubmit={submitSearch} className="flex-1">
             <label
@@ -121,7 +123,7 @@ export function StoreLayout({ children, overHero = false }: { children: ReactNod
               )}
             >
               <Search className="h-5 w-5 shrink-0 text-primary" />
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="ابحث عن حذاء..." className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={tr("ابحث عن حذاء...","Search shoes...")} className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
               {q && (
                 <button type="button" aria-label="مسح" onClick={() => setQ("")} className="text-muted-foreground"><X className="h-4 w-4" /></button>
               )}

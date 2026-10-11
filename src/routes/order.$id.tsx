@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { MessageSquare } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, Clock, Package, Truck, Home, X } from "lucide-react";
 import { EmptyState } from "@/components/ui-kit";
@@ -67,7 +69,7 @@ function OrderPage() {
 
   return (
     <StoreLayout>
-      <AnimatePresence>{celebrate && <Success n={o.order_number} onClose={() => setCelebrate(false)} />}</AnimatePresence>
+      {typeof document !== "undefined" && createPortal(<AnimatePresence>{celebrate && <Success n={o.order_number} onClose={() => setCelebrate(false)} />}</AnimatePresence>, document.body)}
       <div className="mx-auto max-w-2xl space-y-4">
         <div className="rounded-3xl bg-brand p-6 text-center text-primary-foreground">
           <p className="text-lg">رقم طلبك</p>
@@ -75,6 +77,12 @@ function OrderPage() {
           <p className="mt-2 inline-block rounded-full bg-card/25 px-4 py-1 font-bold">{STATUS_LABELS[o.status]}</p>
         </div>
         <Tracker status={o.status} />
+        {o.admin_note && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex gap-3 rounded-3xl border-2 border-primary/30 bg-accent p-4">
+            <MessageSquare className="h-5 w-5 shrink-0 text-primary" />
+            <div><p className="font-extrabold text-primary">رسالة من المتجر</p><p className="whitespace-pre-line text-sm">{o.admin_note}</p></div>
+          </motion.div>
+        )}
 
         {o.payment_method === "transfer" && (
           <div className="space-y-3 rounded-2xl border-2 border-secondary bg-card p-4">
@@ -154,7 +162,7 @@ function Tracker({ status }: { status: string }) {
 
 function Success({ n, onClose }: { n: number; onClose: () => void }) {
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-card/95 backdrop-blur">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-card/95 backdrop-blur">
       {Array.from({ length: 18 }).map((_, i) => (
         <motion.span
           key={i}
