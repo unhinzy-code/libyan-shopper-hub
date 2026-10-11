@@ -65,7 +65,7 @@ function ProductPage() {
             {off > 0 && (
               <>
                 <span className="text-muted-foreground line-through">{money(p.old_price)}</span>
-                <span className="rounded-lg border border-destructive bg-destructive/10 px-3 py-1 font-bold text-destructive">-{off}% تخفيض</span>
+                <span className="rounded-lg border border-destructive bg-destructive/10 px-3 py-1 font-bold text-destructive">-{off}% {T("تخفيض","off")}</span>
               </>
             )}
           </div>
