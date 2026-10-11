@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Camera } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -48,7 +49,7 @@ export function CategoriesAdmin() {
         <div key={c.id} className="flex items-center justify-between rounded-2xl border bg-card p-3">
           <label className="flex cursor-pointer items-center gap-3">
             <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-accent">
-              {c.image_url ? <img src={c.image_url} alt="" className="h-full w-full object-cover" /> : "📷"}
+              {c.image_url ? <img src={c.image_url} alt="" className="h-full w-full object-cover" /> : <Camera className="h-6 w-6 text-muted-foreground" />}
             </span>
             <span className="font-bold">{c.name}</span>
             <input type="file" accept="image/*" className="hidden" onChange={async (e) => {

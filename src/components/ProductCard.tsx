@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { Footprints } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Heart, Plus, Star, Check } from "lucide-react";
 import { useState } from "react";
@@ -47,7 +48,7 @@ export function ProductCard({ p, index = 0 }: { p: Product; index?: number }) {
     buzz(20);
     if (p.stock <= 0) return toast.error("نفذت الكمية");
     if (p.sizes.length) {
-      toast("اختر المقاس أولاً 👟");
+      toast("اختر المقاس أولاً ");
       return;
     }
     cart.add({ product_id: p.id, name: p.name, price: Number(p.price), image_url: p.image_url, size: "", qty: 1 });
@@ -68,7 +69,7 @@ export function ProductCard({ p, index = 0 }: { p: Product; index?: number }) {
           {p.image_url ? (
             <img src={p.image_url} alt={p.name} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
           ) : (
-            <div className="flex h-full items-center justify-center text-4xl">👟</div>
+            <div className="flex h-full items-center justify-center"><Footprints className="h-12 w-12 text-primary/40" /></div>
           )}
           {off > 0 && (
             <span className="absolute right-2 top-2 rounded-full bg-destructive px-2 py-0.5 text-xs font-bold text-destructive-foreground">-{off}%</span>

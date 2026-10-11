@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Star } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -78,7 +79,7 @@ export function ProductsAdmin() {
         <h2 className="text-lg font-extrabold">{form.id ? "تعديل منتج" : "منتج جديد"}</h2>
         <label className="block cursor-pointer">
           <div className="flex h-40 w-40 items-center justify-center overflow-hidden rounded-xl border-2 border-dashed bg-muted">
-            {form.image_url ? <img src={form.image_url} alt="" className="h-full w-full object-cover" /> : busy ? "..." : "📷 صورة"}
+            {form.image_url ? <img src={form.image_url} alt="" className="h-full w-full object-cover" /> : busy ? "..." : "صورة"}
           </div>
           <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
             const f = e.target.files?.[0];
@@ -101,7 +102,7 @@ export function ProductsAdmin() {
           {cats.data?.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
         <div className="flex gap-4">
-          <label className="flex items-center gap-2"><input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} /> مميز ⭐</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} /> مميز </label>
           <label className="flex items-center gap-2"><input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} /> ظاهر في المتجر</label>
         </div>
         <div className="flex gap-2">
@@ -122,12 +123,12 @@ export function ProductsAdmin() {
         <div key={p.id} className="flex items-center gap-3 rounded-2xl border bg-card p-3">
           <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-muted">{p.image_url && <img src={p.image_url} alt="" className="h-full w-full object-cover" />}</div>
           <div className="flex-1">
-            <p className="font-bold">{p.name} {p.featured && "⭐"} {!p.active && <span className="text-xs text-muted-foreground">(مخفي)</span>}</p>
+            <p className="font-bold">{p.name} {p.featured && ""} {!p.active && <span className="text-xs text-muted-foreground">(مخفي)</span>}</p>
             <p className="text-sm">{money(p.price)} · مخزون: <b className={p.stock < 5 ? "text-destructive" : ""}>{p.stock}</b></p>
           </div>
           <div className="flex flex-wrap gap-1 text-xs">
             <button onClick={() => patch(p.id, { active: !p.active })} className="rounded-lg border px-2 py-1">{p.active ? "إخفاء" : "إظهار"}</button>
-            <button onClick={() => patch(p.id, { featured: !p.featured })} className="rounded-lg border px-2 py-1">⭐</button>
+            <button onClick={() => patch(p.id, { featured: !p.featured })} className="rounded-lg border px-2 py-1"><Star className="h-4 w-4" /></button>
             <button onClick={() => setForm({ id: p.id, name: p.name, description: p.description, price: String(p.price), old_price: p.old_price ? String(p.old_price) : "", stock: String(p.stock), sizes: p.sizes.join(", "), image_url: p.image_url, category_id: p.category_id ?? "", featured: p.featured, active: p.active })} className="rounded-lg border border-primary px-2 py-1 text-primary">تعديل</button>
             <button onClick={() => del(p.id)} className="rounded-lg border border-destructive px-2 py-1 text-destructive">حذف</button>
           </div>

@@ -60,7 +60,7 @@ function AuthPage() {
       toast.error(m.includes("already") ? "هذا الرقم مسجل مسبقاً، سجّل دخول" : m.includes("invalid") ? "رقم الهاتف أو كلمة المرور خطأ" : error.message);
       return;
     }
-    toast.success(mode === "signup" ? "تم إنشاء الحساب 🎉" : "أهلاً بك!");
+    toast.success(mode === "signup" ? "تم إنشاء الحساب " : "أهلاً بك!");
   };
 
   return (
@@ -79,7 +79,7 @@ function AuthPage() {
           <Logo className="text-6xl text-primary-foreground" />
         </motion.div>
         <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="mt-3 text-lg font-bold text-primary-foreground">
-          خطوتك الحلوة تبدأ من هنا 💗
+          خطوتك الحلوة تبدأ من هنا 
         </motion.p>
       </div>
       <motion.form

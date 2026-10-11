@@ -30,11 +30,11 @@ function Favs() {
   });
   return (
     <StoreLayout>
-      <PageTitle>المفضلة 💗</PageTitle>
+      <PageTitle>المفضلة </PageTitle>
       {!session ? (
-        <EmptyState emoji="🔒" title="سجّل دخول أولاً" text="احفظ الأحذية اللي تعجبك وارجع لها بأي وقت" action={{ label: "دخول", to: "/auth" }} />
+        <EmptyState emoji="lock" title="سجّل دخول أولاً" text="احفظ الأحذية اللي تعجبك وارجع لها بأي وقت" action={{ label: "دخول", to: "/auth" }} />
       ) : ids.length === 0 ? (
-        <EmptyState emoji="💔" title="ما فيه مفضلة بعد" text="اضغط على القلب في أي منتج ليظهر هنا" action={{ label: "تسوق الآن", to: "/" }} />
+        <EmptyState emoji="heart" title="ما فيه مفضلة بعد" text="اضغط على القلب في أي منتج ليظهر هنا" action={{ label: "تسوق الآن", to: "/" }} />
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
           {(q.data ?? []).map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}

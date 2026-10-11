@@ -51,13 +51,13 @@ function Account() {
           <motion.span className="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-card/15" animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 5, repeat: Infinity }} />
           {session ? (
             <div className="relative">
-              <p className="text-sm opacity-90">أهلاً بك 👋</p>
+              <p className="text-sm opacity-90">أهلاً بك </p>
               <h1 className="text-2xl font-extrabold">{profile?.name || "عميلتنا"}</h1>
               <p dir="ltr" className="text-right opacity-90">{profile?.phone}</p>
             </div>
           ) : (
             <div className="relative space-y-3">
-              <h1 className="text-2xl font-extrabold">مرحباً بك في کیوتی شوز 💗</h1>
+              <h1 className="text-2xl font-extrabold">مرحباً بك في کیوتی شوز </h1>
               <p className="opacity-90">سجّل دخول لتتبع طلباتك وحفظ المفضلة</p>
               <Link to="/auth" search={{}} onClick={() => buzz()} className="inline-flex items-center gap-2 rounded-full bg-card px-5 py-2 font-bold text-primary">
                 <LogIn className="h-4 w-4" /> دخول / حساب جديد
@@ -167,7 +167,7 @@ function RateApp() {
             onClick={() => {
               buzz();
               setStars(n);
-              toast.success("شكراً لتقييمك 💗");
+              toast.success("شكراً لتقييمك ");
             }}
           >
             <Star className={n <= stars ? "h-5 w-5 fill-star text-star" : "h-5 w-5 text-muted-foreground"} />

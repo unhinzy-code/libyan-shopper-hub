@@ -44,7 +44,7 @@ function Notifs() {
       <div className="mx-auto max-w-xl">
         <PageTitle>الإشعارات</PageTitle>
         {q.isLoading ? null : !q.data?.length ? (
-          <EmptyState emoji="🔔" title="لا توجد إشعارات" text={session ? "سنخبرك فور تحديث طلبك" : "سجّل دخول لتصلك تحديثات طلباتك"} action={session ? undefined : { label: "دخول", to: "/auth" }} />
+          <EmptyState emoji="bell" title="لا توجد إشعارات" text={session ? "سنخبرك فور تحديث طلبك" : "سجّل دخول لتصلك تحديثات طلباتك"} action={session ? undefined : { label: "دخول", to: "/auth" }} />
         ) : (
           <div className="space-y-2">
             {q.data.map((n, i) => {

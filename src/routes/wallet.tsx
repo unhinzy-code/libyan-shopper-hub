@@ -31,7 +31,7 @@ function WalletPage() {
       <div className="mx-auto max-w-md">
         <PageTitle>المحفظة</PageTitle>
         {!session ? (
-          <EmptyState emoji="👛" title="سجّل دخول لرؤية رصيدك" action={{ label: "دخول", to: "/auth" }} />
+          <EmptyState emoji="wallet" title="سجّل دخول لرؤية رصيدك" action={{ label: "دخول", to: "/auth" }} />
         ) : (
           <motion.div initial={{ rotateX: 30, opacity: 0 }} animate={{ rotateX: 0, opacity: 1 }} transition={{ type: "spring" }} className="rounded-3xl bg-brand p-8 text-primary-foreground shadow-brand">
             <p className="opacity-90">رصيدك الحالي</p>

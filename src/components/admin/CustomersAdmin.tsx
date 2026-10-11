@@ -41,7 +41,7 @@ export function CustomersAdmin() {
               <a dir="ltr" href={`tel:${c.phone}`} className="text-primary">{c.phone}</a>
               <a href={`https://wa.me/218${c.phone.slice(1)}`} target="_blank" rel="noreferrer" className="font-bold text-success">واتساب</a>
             </div>
-            <button onClick={() => credit(c.id, Number(c.wallet_balance))} className="mt-1 rounded-lg border px-2 text-xs">👛 المحفظة: {money(c.wallet_balance)}</button>
+            <button onClick={() => credit(c.id, Number(c.wallet_balance))} className="mt-1 rounded-lg border px-2 text-xs">المحفظة: {money(c.wallet_balance)}</button>
           </div>
           <div className="text-left text-sm">
             <p>{c.count} طلبات</p>

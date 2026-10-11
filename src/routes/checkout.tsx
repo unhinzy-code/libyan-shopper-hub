@@ -47,9 +47,9 @@ function Checkout() {
   const fee = Number(city?.delivery_fee ?? 0);
 
   if (!loading && !session)
-    return <StoreLayout><EmptyState emoji="🔐" title="سجّل دخول لإتمام الطلب" action={{ label: "دخول", to: "/auth", search: { next: "/checkout" } }} /></StoreLayout>;
+    return <StoreLayout><EmptyState emoji="lock" title="سجّل دخول لإتمام الطلب" action={{ label: "دخول", to: "/auth", search: { next: "/checkout" } }} /></StoreLayout>;
   if (cart.items.length === 0)
-    return <StoreLayout><EmptyState emoji="🛍️" title="السلة فاضية" action={{ label: "تسوق", to: "/" }} /></StoreLayout>;
+    return <StoreLayout><EmptyState emoji="bag" title="السلة فاضية" action={{ label: "تسوق", to: "/" }} /></StoreLayout>;
 
   const place = async () => {
     if (!cityId) return toast.error("اختر المدينة");
@@ -78,16 +78,16 @@ function Checkout() {
       <h1 className="mb-4 text-2xl font-extrabold">مراجعة الطلب</h1>
       <div className="space-y-5">
         <section className="space-y-3 rounded-3xl bg-card p-4 shadow-soft">
-          <h2 className="font-bold">📞 رقم التواصل</h2>
+          <h2 className="font-bold">رقم التواصل</h2>
           <PhoneField value={shownPhone} onChange={(v) => { setPhoneTouched(true); setPhone(v); }} />
-          <h2 className="font-bold">📍 عنوان التوصيل</h2>
+          <h2 className="font-bold">عنوان التوصيل</h2>
           <select value={cityId} onChange={(e) => setCityId(e.target.value)} className="w-full rounded-2xl border-2 bg-card px-4 py-3 outline-none focus:border-primary">
             <option value="">اختر المدينة</option>
             {cities.data?.map((c) => (
               <option key={c.id} value={c.id}>{c.name} — {money(c.delivery_fee)}{c.delivery_days ? ` (${c.delivery_days})` : ""}</option>
             ))}
           </select>
-          {city?.delivery_days && <p className="rounded-xl bg-accent px-3 py-2 text-sm font-bold text-accent-foreground">🚚 أيام التوصيل: {city.delivery_days}</p>}
+          {city?.delivery_days && <p className="rounded-xl bg-accent px-3 py-2 text-sm font-bold text-accent-foreground">أيام التوصيل: {city.delivery_days}</p>}
           <textarea value={details} onChange={(e) => setDetails(e.target.value)} maxLength={500} placeholder="تفاصيل العنوان (اختياري): الحي، الشارع، أقرب معلم..." className="min-h-20 w-full rounded-xl border-2 px-4 py-3" />
         </section>
 
@@ -109,7 +109,7 @@ function Checkout() {
               <p className="text-sm text-muted-foreground">اختر المصرف وحوّل المبلغ لأحد الحسابات التالية:</p>
               <BankList selected={bank} onSelect={setBank} />
               <p className="rounded-xl bg-secondary/30 p-3 text-sm font-bold">
-                ⚠️ بعد التحويل، تأكد من إرسال صورة الإيصال مع رقم الطلب لتأكيد الدفع.
+                بعد التحويل، تأكد من إرسال صورة الإيصال مع رقم الطلب لتأكيد الدفع.
               </p>
             </div>
           )}

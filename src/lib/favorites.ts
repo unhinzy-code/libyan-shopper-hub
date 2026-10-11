@@ -20,7 +20,7 @@ export function useFavorites() {
   const ids = q.data ?? new Set<string>();
   const toggle = async (productId: string) => {
     if (!uid) {
-      toast("سجّل دخول لحفظ المفضلة 💗");
+      toast("سجّل دخول لحفظ المفضلة ");
       navigate({ to: "/auth", search: {} });
       return false;
     }

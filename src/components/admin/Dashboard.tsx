@@ -49,7 +49,7 @@ export function Dashboard() {
         </div>
       </div>
       <div className="rounded-2xl border bg-card p-4">
-        <h3 className="mb-2 font-bold">⚠️ مخزون منخفض (أقل من 5)</h3>
+        <h3 className="mb-2 font-bold">مخزون منخفض (أقل من 5)</h3>
         {low.length === 0 ? <p className="text-sm text-muted-foreground">كل شي تمام</p> : (
           <ul className="space-y-1 text-sm">
             {low.map((p) => <li key={p.id} className="flex justify-between"><span>{p.name}</span><b className="text-destructive">{p.stock}</b></li>)}
