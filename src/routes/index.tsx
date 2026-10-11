@@ -1,15 +1,19 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "motion/react";
 import { useState } from "react";
-import { Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { StoreLayout } from "@/components/StoreLayout";
 import { ProductCard, type Product } from "@/components/ProductCard";
-import { STORE_NAME } from "@/lib/store";
-import hero from "@/assets/hero.jpg";
+import { EmptyState } from "@/components/ui-kit";
+import { buzz } from "@/lib/haptics";
+import hero from "@/assets/hero-banner.jpg";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
+  validateSearch: (s: Record<string, unknown>): { q?: string | undefined } => ({
+    q: typeof s.q === "string" && s.q ? s.q : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "کیوتی شوز | أحذية أنيقة في كل ليبيا" },
@@ -22,8 +26,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { q } = Route.useSearch();
   const [cat, setCat] = useState<string | null>(null);
-  const [q, setQ] = useState("");
   const cats = useQuery({
     queryKey: ["categories"],
     queryFn: async () => (await supabase.from("categories").select("*").order("sort_order")).data ?? [],
@@ -31,83 +35,85 @@ function Index() {
   const products = useQuery({
     queryKey: ["products"],
     queryFn: async () =>
-      ((await supabase.from("products").select("*").eq("active", true).order("created_at", { ascending: false }))
-        .data ?? []) as Product[],
+      ((await supabase.from("products").select("*").eq("active", true).order("created_at", { ascending: false })).data ?? []) as Product[],
   });
 
   const list = (products.data ?? []).filter(
     (p) => (!cat || p.category_id === cat) && (!q || p.name.toLowerCase().includes(q.toLowerCase())),
   );
   const featured = (products.data ?? []).filter((p) => p.featured);
+  const deals = (products.data ?? []).filter((p) => p.old_price && p.old_price > p.price);
 
   return (
-    <StoreLayout>
-      <section className="relative overflow-hidden rounded-3xl">
-        <img src={hero} alt="أحذية کیوتی شوز" width={1536} height={768} className="h-48 w-full object-cover md:h-72" />
-        <div className="absolute inset-0 flex flex-col justify-center bg-gradient-to-l from-primary/85 to-transparent p-6">
-          <h1 className="font-display text-4xl font-extrabold text-primary-foreground md:text-6xl">{STORE_NAME}</h1>
-          <p className="mt-2 text-lg font-bold text-secondary">خطوتك الحلوة تبدأ من هنا ✨</p>
-        </div>
-      </section>
+    <StoreLayout overHero>
+      <motion.section initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="relative w-full overflow-hidden">
+        <img src={hero} alt="أحذية کیوتی شوز" width={1600} height={912} className="h-[62vh] min-h-80 w-full object-cover md:h-[78vh]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+      </motion.section>
 
-      <div className="mt-5 flex items-center gap-2 rounded-full bg-muted px-4 py-3">
-        <Search className="h-5 w-5 text-muted-foreground" />
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="ابحث عن منتج..."
-          className="w-full bg-transparent outline-none"
-        />
-      </div>
+      <div className="mx-auto max-w-6xl px-4">
+        {q && (
+          <div className="mt-4 flex items-center justify-between rounded-2xl bg-accent px-4 py-3 text-sm font-bold">
+            <span>نتائج البحث عن: {q}</span>
+            <Link to="/" search={{}} className="text-primary">مسح</Link>
+          </div>
+        )}
 
-      <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
-        <Chip active={!cat} onClick={() => setCat(null)}>الكل</Chip>
-        {cats.data?.map((c) => (
-          <Chip key={c.id} active={cat === c.id} onClick={() => setCat(c.id)}>
-            {c.name}
-          </Chip>
-        ))}
-      </div>
-
-      {featured.length > 0 && !cat && !q && (
-        <section className="mt-6">
-          <h2 className="mb-3 text-xl font-extrabold">الأكثر طلباً 💯✨</h2>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            {featured.slice(0, 4).map((p) => (
-              <ProductCard key={p.id} p={p} />
+        <section className="mt-4">
+          <h2 className="mb-3 text-lg font-extrabold">الأقسام</h2>
+          <div className="no-scrollbar flex gap-4 overflow-x-auto pb-2">
+            <CatBubble active={!cat} label="الكل" onClick={() => setCat(null)} />
+            {cats.data?.map((c, i) => (
+              <CatBubble key={c.id} i={i} active={cat === c.id} label={c.name} img={c.image_url} onClick={() => setCat(c.id)} />
             ))}
           </div>
         </section>
-      )}
 
-      <section className="mt-6">
-        <h2 className="mb-3 text-xl font-extrabold">كل المنتجات</h2>
-        {products.isLoading ? (
-          <p className="text-muted-foreground">جاري التحميل...</p>
-        ) : list.length === 0 ? (
-          <p className="rounded-2xl bg-muted p-8 text-center text-muted-foreground">لا توجد منتجات حالياً</p>
-        ) : (
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            {list.map((p) => (
-              <ProductCard key={p.id} p={p} />
-            ))}
-          </div>
+        {featured.length > 0 && !cat && !q && (
+          <Section title="الأكثر طلباً 💗">
+            {featured.slice(0, 4).map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
+          </Section>
         )}
-      </section>
+        {deals.length > 0 && !cat && !q && (
+          <Section title="تخفيضات 🔥">
+            {deals.slice(0, 4).map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
+          </Section>
+        )}
+
+        <Section title="كل المنتجات">
+          {products.isLoading
+            ? Array.from({ length: 4 }).map((_, i) => <div key={i} className="aspect-[3/4] animate-pulse rounded-3xl bg-muted" />)
+            : list.map((p, i) => <ProductCard key={p.id} p={p} index={i} />)}
+        </Section>
+        {!products.isLoading && list.length === 0 && <EmptyState emoji="👠" title="لا توجد منتجات" text="جرب قسم آخر أو بحث مختلف" />}
+      </div>
     </StoreLayout>
   );
 }
 
-function Chip({ active, children, onClick }: { active: boolean; children: React.ReactNode; onClick: () => void }) {
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <button
-      onClick={onClick}
-      className={cn(
-        "shrink-0 rounded-full border px-4 py-2 text-sm font-bold",
-        active ? "border-primary bg-primary text-primary-foreground" : "bg-card text-foreground",
-      )}
+    <section className="mt-7">
+      <h2 className="mb-3 text-lg font-extrabold">{title}</h2>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">{children}</div>
+    </section>
+  );
+}
+
+function CatBubble({ label, img, active, onClick, i = 0 }: { label: string; img?: string | null; active: boolean; onClick: () => void; i?: number }) {
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: i * 0.05 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={() => { buzz(); onClick(); }}
+      className="flex w-20 shrink-0 flex-col items-center gap-1.5"
     >
-      {children}
-    </button>
+      <span className={cn("flex h-18 w-18 items-center justify-center overflow-hidden rounded-full border-2 bg-accent p-0.5 transition", active ? "border-primary shadow-brand" : "border-transparent")}>
+        {img ? <img src={img} alt={label} loading="lazy" className="h-full w-full rounded-full object-cover" /> : <span className="text-2xl">👟</span>}
+      </span>
+      <span className={cn("line-clamp-1 text-xs font-bold", active ? "text-primary" : "text-foreground")}>{label}</span>
+    </motion.button>
   );
 }
